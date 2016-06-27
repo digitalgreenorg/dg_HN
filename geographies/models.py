@@ -4,14 +4,12 @@ from django.db.models.signals import pre_delete, post_save
 
 from coco.base_models import CocoModel
 from coco.data_log import delete_log, save_log
-#from libs.geocoder import Geocoder
 from programs.models import Partner
 
 import logging
 
 class Country(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     country_name = models.CharField(max_length=100, unique='True')
     start_date = models.DateField(null=True, blank=True)
 
@@ -24,7 +22,6 @@ class Country(CocoModel):
 
 class State(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     state_name = models.CharField(max_length=100, unique='True')
     country = models.ForeignKey(Country)
     start_date = models.DateField(null=True, blank=True)
@@ -35,7 +32,6 @@ class State(CocoModel):
 
 class District(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     district_name = models.CharField(max_length=100, unique='True')
     start_date = models.DateField(null=True, blank=True)
     state = models.ForeignKey(State)
@@ -62,7 +58,6 @@ class District(CocoModel):
 
 class Block(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     block_name = models.CharField(max_length=100, unique='True')
     start_date = models.DateField(null=True, blank=True)
     district = models.ForeignKey(District)
@@ -72,7 +67,6 @@ class Block(CocoModel):
 
 class Village(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     village_name = models.CharField(max_length=100)
     block = models.ForeignKey(Block)
     start_date = models.DateField(null=True, blank=True)
@@ -93,23 +87,3 @@ class Village(CocoModel):
         return self.village_name
 post_save.connect(save_log, sender = Village)
 pre_delete.connect(delete_log, sender = Village)
-
-class JSLPS_District(CocoModel):
-    id = models.AutoField(primary_key=True)
-    district_code = models.CharField(max_length=100)
-    district_name = models.CharField(max_length=100)
-    district = models.ForeignKey(District, null=True, blank=True)
-
-class JSLPS_Block(CocoModel):
-    id = models.AutoField(primary_key=True)
-    block_code = models.CharField(max_length=100)
-    block_name = models.CharField(max_length=100)
-    district_code = models.CharField(max_length=100)
-    block = models.ForeignKey(Block, null=True, blank=True)
-
-class JSLPS_Village(CocoModel):
-    id = models.AutoField(primary_key=True)
-    village_code = models.CharField(max_length=100)
-    village_name = models.CharField(max_length=100)
-    block_code = models.CharField(max_length=100)
-    Village = models.ForeignKey(Village, null=True, blank=True)

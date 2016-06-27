@@ -94,6 +94,15 @@ NONNEGOTIABLE_OPTION = (
     (5,5),
 )
 
+ATTENDED_PERSON_CATEGORY = (
+    (0,'Pregnant Woman'),
+    (1,'Mother of child < 5 years old'),
+    (2,'Adolescent girl (10-19 years old)'),
+    (4,'Other Female'),
+    (5,'Male'),
+)
+
+
 class CocoModel(models.Model):
     user_created = models.ForeignKey(User, related_name ="%(app_label)s_%(class)s_created", editable = False, null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
