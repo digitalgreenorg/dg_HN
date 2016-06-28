@@ -7,29 +7,6 @@ from geographies.models import Village
 from programs.models import Partner
 from people.models import Animator, Person
 
-class Category(CocoModel):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return self.name
-
-class SubCategory(CocoModel):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    category = models.ForeignKey(Category)
-
-    def __unicode__(self):
-        return self.name
-
-class VideoPractice(CocoModel):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    sub_category = models.ForeignKey(SubCategory)
-
-    def __unicode__(self):
-        return self.name
-
 
 class PracticeSector(CocoModel):
     id = models.AutoField(primary_key=True)
