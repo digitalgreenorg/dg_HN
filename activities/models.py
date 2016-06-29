@@ -16,7 +16,6 @@ from coco.base_models import ADOPTION_VERIFICATION, SCREENING_OBSERVATION, SCREE
 class Screening(CocoModel):
     id = models.AutoField(primary_key=True)
     date = models.DateField()
-    start_time = models.TimeField()
     location = models.CharField(max_length=200, blank=True)
     village = models.ForeignKey(Village)
     animator = models.ForeignKey(Animator)
@@ -30,7 +29,7 @@ class Screening(CocoModel):
     problem_faced = models.TextField(blank=True)
 
     class Meta:
-        unique_together = ("date", "start_time", "animator", "village")
+        unique_together = ("date", "animator", "village")
 
     def __unicode__(self):
         return u'%s' % (self.village.village_name)
