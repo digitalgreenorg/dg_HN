@@ -69,6 +69,10 @@ class ScreeningAdmin(admin.ModelAdmin):
                 settings.STATIC_URL + "js/qa_screening.js",
         )
 
+class InfluencersAdmin(admin.ModelAdmin):
+    list_display = ('id', 'date', 'number_of_male', 'number_of_female')
+    search_fields = ['id', 'village__village_name', 'partner__partner_name','animator__name', 'number_of_male', 'number_of_female']
+
 class NonNegotiablesInline(admin.TabularInline):
     model =  NonNegotiable
     raw_id_fields = ("video",)
