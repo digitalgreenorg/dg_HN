@@ -237,32 +237,6 @@ function() {
                     'name_field': 'language_name'
                 }
             },
-            'category': {
-                "category": {
-                    'placeholder': 'id_category',
-                    'name_field': 'category_name'
-                }
-            },
-            'subcategory': {
-                "subcategory": {
-                    'placeholder': "id_subcategory",
-                    'name_field': "subcategory_name",
-                    'dependency': [{
-                        'source_form_element': 'category',
-                        'dep_attr': 'category'
-                    }]
-                }
-            },
-            'videopractice': {
-                "videopractice": {
-                    'placeholder': "id_videopractice",
-                    'name_field': "videopractice_name",
-                    'dependency': [{
-                        'source_form_element': 'subcategory',
-                        'dep_attr': 'subcategory'
-                    }]
-                }
-            }
         },
         'inline': {
             'entity': 'nonnegotiable',
@@ -310,9 +284,6 @@ function() {
                 },
                 village: "required",
                 production_team: "required",
-                category: "required",
-                subcategory: "required",
-                videopractice: "required",
                 approval_date: {
 					dateOrder: {production_date : "production_date"}
                     // validateDate: true
@@ -341,9 +312,6 @@ function() {
                 },
                 village: "Village is required",
                 production_team: "Production team is required",
-                category: "Category is required",
-                subcategory: "Subcategory is required",
-                videopractice: "Videopractice is required",
                 approval_date: {
                     validateDate: "Enter Approval Date in the form of YYYY-MM-DD",
 					dateOrder: "Approval date should be later than production date"
@@ -379,52 +347,6 @@ function() {
         'rest_api_url': '/coco/api/v2/language/',
         'entity_name': 'language',
         'sort_field': 'language_name',
-        'dashboard_display': {
-            listing: false,
-            add: false
-        }
-    };
-
-    var category_configs = {
-        'rest_api_url': '/coco/api/v2/category/',
-        'entity_name': 'category',
-        'sort_field': 'category_name',
-        'dashboard_display': {
-            listing: false,
-            add: false
-        }
-    };
-
-    var subcategory_configs = {
-        'rest_api_url': '/coco/api/v2/subcategory/',
-        'entity_name': 'subcategory',
-        'sort_field': 'subcategory_name',
-        'foreign_entities': {
-            'category': {
-                'category': {
-                    'placeholder': 'id_category',
-                    'name_field': 'category_name'
-                }
-            }
-        },
-        'dashboard_display': {
-            listing: false,
-            add: false
-        }
-    };
-
-    var videopractice_configs = {
-        'rest_api_url': '/coco/api/v2/videopractice/',
-        'entity_name': 'videopractice',
-        'sort_field': 'videopractice_name',
-        'foreign_entities': {
-            'subcategory': {
-                'subcategory': {
-                    'placeholder': 'id_subcategory',
-                    'name_field': 'subcategory_name'
-                }
-            }
-        },
         'dashboard_display': {
             listing: false,
             add: false
@@ -691,7 +613,7 @@ function() {
                                 }
                             }
                         },
-                        extra_fields: ["expressed_question", "interested", "expressed_adoption_video"]
+                        extra_fields: ["category", "expressed_question", "interested", "expressed_adoption_video"]
                     }
                 }
             }
@@ -727,6 +649,93 @@ function() {
 				videoes_screened:"Videos screened is required",
 				farmer_groups_targeted: "Groups attended is required"
 			},
+
+            highlight: function(element, errorClass, validClass) {
+                $(element)
+                    .parent('div')
+                    .parent('div')
+                    .addClass("error");
+
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element)
+                    .parent('div')
+                    .parent('div')
+                    .removeClass("error");
+
+            },
+            errorElement: "span",
+            errorClass: "help-inline red-color",
+            errorPlacement: function(label, element) {
+                element.parent().append(label);
+            }
+        }
+    };
+
+    var influencer_configs = {
+        'page_header': 'Influencer',
+        'add_template_name': 'influencer_add_edit_template',
+        'edit_template_name': 'influencer_add_edit_template',
+        'rest_api_url': '/coco/api/v2/influencer/',
+        'entity_name': 'influencer',
+        'inc_table_name': 'influencer',
+        'list_elements': [{'header':'Screening Date','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Video','element':'video.title'}, {'header':'No. of Male','element':'number_of_male'}, {'header':'No. of Female','element':'number_of_female'}],
+        'foreign_entities': {
+            'village': {
+                'village': {
+                    'placeholder': 'id_village',
+                    'name_field': 'village_name'
+                },
+            },
+            'video': {
+                'video': {
+                    'placeholder': 'id_videoes_screened',
+                    'name_field': 'title'
+                },
+            },
+            'mediator': {
+                'mediator': {   
+                    'placeholder': 'id_animator',
+                    'name_field': 'name',
+                    'dependency': [{
+                        'source_form_element': 'village',
+                        'dep_attr': 'assigned_villages'
+                    }]
+                }
+            },
+            'group': {
+                'group': {
+                    'placeholder': 'id_group',
+                    'name_field': 'group_name',
+                    'dependency': [{
+                        'source_form_element': 'village',
+                        'dep_attr': 'village'
+                    }]
+                }
+            },
+        },
+        'form_field_validation': {
+            ignore: [],
+            rules: {
+                date: {
+                    required: true,
+                    validateDate: true,
+                },
+                mediator: "required",
+                village: "required",
+                videoe: "required",
+                group: "required",
+            },
+            messages: {
+                date: {
+                    required: 'Screening date is required',
+                    validateDate: 'Enter screening date in the form of YYYY-MM-DD',
+                },
+                animator: "Mediator is required",
+                village: "Village is required",
+                video: "Videos screened is required",
+                group: "Groups attended is required"
+            },
 
             highlight: function(element, errorClass, validClass) {
                 $(element)
@@ -833,16 +842,6 @@ function() {
                         'dependency': [{
                             'source_form_element': 'village',
                             'dep_attr': 'village'
-                        }]
-                    }
-                },
-                'mediator': {
-                    'animator': {
-                        'placeholder': 'id_animator',
-                        'name_field': 'name',
-                        'dependency': [{
-                            'source_form_element': 'village',
-                            'dep_attr': 'assigned_villages'
                         }]
                     }
                 },
@@ -1107,11 +1106,9 @@ function() {
         screening: screening_configs,
         adoption: adoption_configs,
         language: language_configs,
-        category: category_configs,
-        subcategory: subcategory_configs,
-        videopractice: videopractice_configs,
         district: district_configs,
         nonnegotiable: nonnegotiable_configs,
+        influencer: influencer_configs,
         misc: misc
     }
 

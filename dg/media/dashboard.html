@@ -19,7 +19,7 @@
     <LINK REL="stylesheet"  HREF="/media/coco/app/styles/css/tabletools_custom.css">
 
     
-    <script data-main="/media/coco/dist/scripts/main" src="/media/coco/app/scripts/libs/require.js"></script>
+    <script data-main="/media/coco/app/scripts/main" src="/media/coco/app/scripts/libs/require.js"></script>
     <script type="text/javascript">
 	  require.config({
 	    paths: {
@@ -573,7 +573,7 @@
                 <div class="form-group"> 
                     <label class="control-label col-sm-2">Videos Screened</label>
                 	<div class="col-sm-4"> 
-                	<select multiple="multiple" name="videoes_screened" id = "id_videoes_screened" class="chosen-select form-control">
+                	   <select multiple="multiple" name="videoes_screened" id = "id_videoes_screened" class="chosen-select form-control">
                         </select> 
                     </div>
                 </div>
@@ -590,9 +590,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label notbold">Questions asked</label>
+                    <label class="col-sm-2 control-label notbold">Problems faced in understanding the video</label>
                     <div class="col-sm-4">
-                        <textarea name="questions_asked" class="input-xlarge form-control" rows="4" placeholder="questions_asked"></textarea>
+                        <textarea name="problem_faced" class="input-xlarge form-control" rows="4" placeholder="problem_faced"></textarea>
                     </div>
                 </div>
                     <br>
@@ -610,6 +610,9 @@
                             </th>
                             <th class="notbold">
                                 Person
+                            </th>
+                            <th class="notbold">
+                                Category
                             </th>
                         </tr>
                     </thead>
@@ -659,9 +662,88 @@
                 </div>
             </div>
         </td>
+        <td>
+            <div class="form-group">
+                <div class="controls">
+                    <select name="category"  class="chosen-select form-control">
+                        <option value="" selected='selected'>---------- </option>
+                        <option value="0">Pregnant Woman</option>
+                        <option value="1">Mother of child &lt; 5 years old</option>
+                        <option value="2">Adolescent girl (10-19 years old)</option>
+                        <option value="3">Other Female</option>
+                        <option value="4">Male</option>
+                    </select>
+                </div>
+            </div>
+        </td>
     </tr>
 </script>
+
 <!--///////////////////////////////////////////////// SCREENING ADD/EDIT TEMPLATES END //////////////////////////////////////////////-->
+
+<!--///////////////////////////////////////////////// INFLUENCER ADD/EDIT TEMPLATES START //////////////////////////////////////////////-->
+
+
+<script type="text/template" id="influencer_add_edit_template">
+            <fieldset class="form-horizontal">
+                <legend>Add Screening For Influencer</legend>
+                <p class="bold-helptext"> All fields in bold are required</p>
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2">Date</label>
+                    <div class="col-sm-4">
+                        <input class="date-picker form-control" id="date" type="text" placeholder="YYYY-MM-DD" name="date" onkeydown="return false;">  
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Village</label>
+                    <div class="col-sm-4"> 
+                        <select name="village" id="id_village" class="chosen-select form-control" placeholder="Enter animator to enable">
+                        <option value='' selected='selected'>---------</option> 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Mediator</label>
+                    <div class="col-sm-4"> 
+                        <select name="mediator" id="id_animator" class="chosen-select form-control">
+                            <option value='' selected='selected'>---------</option> 
+                        </select > 
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2">Videos Screened</label>
+                    <div class="col-sm-4"> 
+                       <select multiple="multiple" name="video" id = "id_videoes_screened" class="chosen-select form-control">
+                        </select> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Groups</label>
+                    <div class="col-sm-4">
+                        <select id="id_group" name = "group" multiple="multiple" class="chosen-select form-control"></select> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label notbold">No. of Male Participants</label>
+                    <div class="col-sm-4">
+                        <input name="number_of_male" type="text" class="input form-control"  placeholder="Number of male" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label notbold">No. of Female Participants</label>
+                    <div class="col-sm-4">
+                        <input name="number_of_female" type="text" class="input form-control"  placeholder="Number of female" />
+                    </div>
+                </div>
+                    <br>
+            </fieldset>
+</script> 
+
+
+
+
+
+<!--///////////////////////////////////////////////// INFLUENCER ADD/EDIT TEMPLATES END //////////////////////////////////////////////-->
 
 <!--///////////////////////////////////////////////// ADOPTION ADD/EDIT TEMPLATES START //////////////////////////////////////////////-->
 <script type="text/template" id="adoption_edit_template">
@@ -676,7 +758,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Video</label>
+                    <label class="control-label col-sm-2">Video Screened</label>
                     <div class="col-sm-4">
                         <select name="video" id="id_video" class="chosen-select form-control"></select>
                     </div>
@@ -687,6 +769,12 @@
                         <input class="date-picker inl_date form-control" id="date" type="text" placeholder="YYYY-MM-DD" name="date_of_adoption" onkeydown="return false;">  
                  	</div>
                  </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label notbold">Problems faced with knowledge retention and promotion</label>
+                    <div class="col-sm-4">
+                        <textarea name="problem_faced" class="input-xlarge form-control" rows="4" placeholder="problem_faced"></textarea>
+                    </div>
+                </div>
         </fieldset>
     
 </script>
@@ -703,14 +791,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Mediator</label>
-                <div class="col-sm-4"> 
-                <select name="animator" id="id_animator" class="chosen-select form-control">
-                <option value="">---------- </option>
-                </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="control-label col-sm-2">Video</label>
                 <div class="col-sm-4"> 
                 <select name="video" id="id_video" class="chosen-select form-control">
@@ -719,7 +799,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Groups Attended</label>
+                <label class="control-label col-sm-2">Groups</label>
                 <div class="col-sm-4">
                     <select name="group" id="id_group" multiple="multiple" class="chosen-select form-control"></select>
                 </div>
@@ -746,9 +826,6 @@
                         <th>
                             Person
                         </th>
-                        <th>
-                            Date of Adoption
-                        </th>
                         <th class = "notbold">
                             Date of verification
                         </th>
@@ -761,7 +838,7 @@
 </script>
 
 <script type="text/template" id="adoption_inline_header">
-    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th> Date Of Adoption</th></tr>
+    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th> Date Of verification</th></tr>
 </script>
 
 <script type="text/template" id="adoption_inline">
@@ -801,13 +878,6 @@
                         }
                     %>
                     <input type="text" class="form-control" id="person_row<%=index%>" name="person_name<%=index%>" value = "<%=person_label%>" disabled>
-                </div>
-            </div>
-        </td>
-        <td>
-            <div class="form-group">
-                <div class="controls">
-                    <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_adoption<%=index%>" name="date_of_adoption<%=index%>" required validateDate onkeydown="return false;">
                 </div>
             </div>
         </td>

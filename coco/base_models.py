@@ -98,8 +98,8 @@ ATTENDED_PERSON_CATEGORY = (
     (0,'Pregnant Woman'),
     (1,'Mother of child < 5 years old'),
     (2,'Adolescent girl (10-19 years old)'),
-    (4,'Other Female'),
-    (5,'Male'),
+    (3,'Other Female'),
+    (4,'Male'),
 )
 
 

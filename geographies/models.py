@@ -42,7 +42,7 @@ class District(CocoModel):
 
     def __unicode__(self):
         return self.district_name
-
+    '''
     def clean(self):
         logger = logging.getLogger('dashboard')
         if(self.latitude is None or self.longitude is None):
@@ -54,7 +54,7 @@ class District(CocoModel):
                     logger.info("%s: Lat Long Added" % self.district_name)
                 except:
                     logger.error("Geocodes not found for %s, %s" % (self.district_name, self.state.state_name))
-
+    '''
 
 class Block(CocoModel):
     id = models.AutoField(primary_key=True)

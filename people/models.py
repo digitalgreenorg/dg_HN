@@ -55,7 +55,6 @@ pre_delete.connect(delete_log, sender=PersonGroup)
 
 class Person(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     person_name = models.CharField(max_length=100)
     father_name = models.CharField(max_length=100, blank=True)
     age = models.IntegerField(max_length=3, null=True, blank=True)
