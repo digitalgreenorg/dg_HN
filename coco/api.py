@@ -17,7 +17,7 @@ from videos.models import Video, Language, NonNegotiable
 from models import CocoUser
 
 # Will need to changed when the location of forms.py is changed
-from dashboard.forms import AnimatorForm, NonNegotiableForm, PersonAdoptPracticeForm, PersonForm, PersonGroupForm, ScreeningForm, VideoForm
+from dashboard.forms import AnimatorForm, NonNegotiableForm, InfluencersForm, PersonAdoptPracticeForm, PersonForm, PersonGroupForm, ScreeningForm, VideoForm
 
 class PMANotSaved(Exception):
     pass
@@ -103,6 +103,8 @@ def foreign_key_to_id(bundle, field_name,sub_field_names):
 
 def dict_to_foreign_uri(bundle, field_name, resource_name=None):
     field_dict = bundle.data.get(field_name)
+    print "*************dict*******************"
+    print field_dict
     if field_dict.get('id'):
         bundle.data[field_name] = "/coco/api/v2/%s/%s/"%(resource_name if resource_name else field_name,
                                                     str(field_dict.get('id')))
@@ -391,28 +393,36 @@ class InfluencerResource(ModelResource):
     village = fields.ForeignKey(VillageResource, 'village')
     mediator = fields.ForeignKey(MediatorResource, 'mediator')
     partner = fields.ForeignKey(PartnerResource, 'partner')
-    video = fields.ForeignKey(VideoResource, 'video')
+    #video = fields.ForeignKey(VideoResource, 'video')
+    video = fields.ToManyField('coco.api.VideoResource', 'video')
     group = fields.ToManyField('coco.api.PersonGroupResource', 'group')
     class Meta:
         queryset = Influencers.objects.all()
         resource_name = 'influencer'
         authentication = SessionAuthentication()
+        validation = ModelFormValidation(form_class=InfluencersForm)
         authorization = VillagePartnerAuthorization('village__in')
         #authorization = VillageAuthorization('village__id__in')
+        always_return_data = True
         max_limit = None
     dehydrate_village = partial(foreign_key_to_id, field_name='village', sub_field_names=['id','village_name'])
     dehydrate_mediator = partial(foreign_key_to_id, field_name='mediator', sub_field_names=['id','name'])
-    dehydrate_partner = partial(foreign_key_to_id, field_name='partner', sub_field_names=['id','partner_name'])
-    dehydrate_video = partial(foreign_key_to_id, field_name='video', sub_field_names=['id','title'])
+    #dehydrate_video = partial(foreign_key_to_id, field_name='video', sub_field_names=['id','title'])
     #dehydrate_group = partial(foreign_key_to_id, field_name='group', sub_field_names=['id','group_name'])
     hydrate_village = partial(dict_to_foreign_uri, field_name='village', resource_name='village')
     hydrate_mediator = partial(dict_to_foreign_uri, field_name='mediator', resource_name='mediator')
-    hydrate_partner = partial(dict_to_foreign_uri, field_name='partner', resource_name='partner')
-    hydrate_video = partial(dict_to_foreign_uri, field_name='video', resource_name='video')
+    hydrate_video = partial(dict_to_foreign_uri_m2m, field_name='video', resource_name='video')
     hydrate_group = partial(dict_to_foreign_uri_m2m, field_name = 'group', resource_name='group')
+    hydrate_partner = partial(assign_partner)
 
     def dehydrate_group(self, bundle):
         return [{'id': group.id, 'group_name': group.group_name} for group in bundle.obj.group.all() ]
+
+    def dehydrate_video(self,bundle):
+        for video in bundle.obj.video.all():
+            print "###############video#########################"
+            print video.id, video.title
+        return [{'id': video.id, 'title': video.title} for video in bundle.obj.video.all() ]
 
 
 
@@ -579,7 +589,7 @@ class PersonAdoptVideoResource(BaseResource):
     village = fields.DictField(null = True)
     class Meta:
         max_limit = None
-        queryset = PersonAdoptPractice.objects.prefetch_related('person__village','video', 'person__group', 'person', 'partner').filter(date_of_adoption__gte=datetime(2013,1,1))
+        queryset = PersonAdoptPractice.objects.prefetch_related('person__village','video', 'person__group', 'person', 'partner').filter(date_of_verification__gte=datetime(2013,1,1))
         resource_name = 'adoption'
         authentication = SessionAuthentication()
         authorization = VillagePartnerAuthorization('person__village__in')

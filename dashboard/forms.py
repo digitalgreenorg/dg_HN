@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.forms.extras.widgets import *
 
-from activities.models import PersonAdoptPractice, PersonMeetingAttendance, Screening
+from activities.models import PersonAdoptPractice, PersonMeetingAttendance, Screening, Influencers
 from coco.base_models import CocoModel
 from geographies.models import Village, Block, District, State, Country
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
@@ -152,3 +152,9 @@ class PersonMeetingAttendanceForm(CocoModelForm):
     class Meta:
         model = PersonMeetingAttendance
         exclude = ()
+
+class InfluencersForm(CocoModelForm):
+    class Meta:
+        model = Influencers
+        exclude = ()
+

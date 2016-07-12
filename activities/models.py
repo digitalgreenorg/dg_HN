@@ -54,7 +54,6 @@ class PersonAdoptPractice(CocoModel):
     id = models.AutoField(primary_key=True)
     person = models.ForeignKey(Person)
     video = models.ForeignKey(Video)
-    date_of_adoption = models.DateField()
     partner = models.ForeignKey(Partner)
     verification_status = models.IntegerField(max_length=1, choices=ADOPTION_VERIFICATION, default=0)
     non_negotiable_check = models.CharField(max_length=256, blank=True, null=True)
@@ -71,7 +70,7 @@ class PersonAdoptPractice(CocoModel):
         return "%s (%s) (%s) (%s) (%s)" % (self.person.person_name, self.person.father_name, self.person.group.group_name if self.person.group else '', self.person.village.village_name, self.video.title)
 
     class Meta:
-        unique_together = ("person", "video", "date_of_adoption")
+        unique_together = ("person", "video", "date_of_verification")
 post_save.connect(save_log, sender=PersonAdoptPractice)
 pre_delete.connect(delete_log, sender=PersonAdoptPractice)
 
@@ -82,7 +81,7 @@ class Influencers(CocoModel):
     village = models.ForeignKey(Village)
     mediator = models.ForeignKey(Animator)
     partner = models.ForeignKey(Partner)
-    video = models.ForeignKey(Video)
+    video = models.ManyToManyField(Video)
     group = models.ManyToManyField(PersonGroup)
     number_of_male = models.IntegerField(null=True, blank=True)
     number_of_female = models.IntegerField(null=True, blank=True)

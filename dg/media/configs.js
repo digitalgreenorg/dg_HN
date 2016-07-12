@@ -723,7 +723,7 @@ function() {
                 },
                 mediator: "required",
                 village: "required",
-                videoe: "required",
+                video: "required",
                 group: "required",
             },
             messages: {
@@ -766,22 +766,16 @@ function() {
         'rest_api_url': '/coco/api/v2/adoption/',
         'entity_name': 'adoption',
         'inc_table_name': 'personadoptpractice',
-        'list_elements': [{'header':'ID','element':'online_id'},{'header':'Date','element':'date_of_adoption'},{'header':'Person ID','element':'person.online_id'},{'header':'Person','element':'person.person_name'},{'header':'Group','element':'group.group_name'},{'header':'Village','element':'village.village_name'},{'header':'Video','element':'video.title'}],
-        'unique_together_fields': ['person.id', 'video.id', 'date_of_adoption'],
+        'list_elements': [{'header':'ID','element':'online_id'},{'header':'Date','element':'date_of_verification'},{'header':'Person ID','element':'person.online_id'},{'header':'Person','element':'person.person_name'},{'header':'Group','element':'group.group_name'},{'header':'Village','element':'village.village_name'},{'header':'Video','element':'video.title'}],
+        'unique_together_fields': ['person.id', 'video.id', 'date_of_verification'],
         form_field_validation: {
             ignore: [],
 			rules: {
                 person: {
                     required: true,
                     
-                },
-                video: {
-                    required: true,                    
-                },
-                animator: {
-                    required: true,
                 },                
-                date_of_adoption: {
+                date_of_verification: {
                     required: true,
 					validateDate: true,
                 }
@@ -790,14 +784,8 @@ function() {
 				person: {
 					required: "person is required"
 				},
-				video: {
-					required: "video is required"
-				},
-                animator: {
-                    required: "Mediator is required"
-                },
-				date_of_adoption: {
-					required: "Date of Adoption is required"
+				date_of_verification: {
+					required: "Date of Verification is required"
 				}
 			},
             highlight: function(element, errorClass, validClass) {
@@ -904,13 +892,8 @@ function() {
                             'name_field': 'group_name'
                         }
                     },
-                    mediator: {
-                        animator: {
-                            'name_field': 'name'
-                        }
-                    },
                 },
-                borrow_fields: ['village', 'group','video','animator']
+                borrow_fields: ['village', 'group','video']
             }
         },
         edit: {
