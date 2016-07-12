@@ -740,9 +740,6 @@
 </script> 
 
 
-
-
-
 <!--///////////////////////////////////////////////// INFLUENCER ADD/EDIT TEMPLATES END //////////////////////////////////////////////-->
 
 <!--///////////////////////////////////////////////// ADOPTION ADD/EDIT TEMPLATES START //////////////////////////////////////////////-->
@@ -826,7 +823,7 @@
                         <th>
                             Person
                         </th>
-                        <th class = "notbold">
+                        <th>
                             Date of verification
                         </th>
                     </tr>
@@ -884,7 +881,7 @@
         <td>
             <div class="form-group">
                 <div class="controls">
-                    <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_verification<%=index%>" name="date_of_verification<%=index%>" onkeydown="return false;">
+                    <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_verification<%=index%>" name="date_of_verification<%=index%>" required onkeydown="return false;">
                 </div>
             </div>
         </td>
@@ -1014,36 +1011,6 @@
                 <label class="control-label dis-block col-sm-2"><b>Production Team</b></label>
                 <div class="col-sm-4">
                     <select size="20" class="chosen-select form-control" id = "id_production_team" name="production_team" multiple>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Category</label>
-                <div class="col-sm-4">
-                    <select id = "id_category" name="category" class="chosen-select form-control">
-                        <option selected="selected" value="">
-                            Category
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Sub Category</label>
-                <div class="col-sm-4">
-                    <select id = "id_subcategory" name="subcategory" class="chosen-select form-control">
-                        <option selected="selected" value="">
-                            Sub Category
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Video Practice</label>
-                <div class="col-sm-4">
-                    <select id = "id_videopractice" name="videopractice" class="chosen-select form-control">
-                        <option selected="selected" value="">
-                            Video Practice
-                        </option>
                     </select>
                 </div>
             </div>

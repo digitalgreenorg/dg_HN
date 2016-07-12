@@ -58,7 +58,7 @@ class PersonAdoptPractice(CocoModel):
     verification_status = models.IntegerField(max_length=1, choices=ADOPTION_VERIFICATION, default=0)
     non_negotiable_check = models.CharField(max_length=256, blank=True, null=True)
     verified_by = models.IntegerField(max_length=1, choices=VERIFIED_BY, null=True, blank=True)
-    date_of_verification = models.DateField()
+    date_of_verification = models.DateField(null=True,blank=True)
     promote_practice = models.BooleanField(default=False)
     n1 = models.BooleanField(default=False)
     n2 = models.BooleanField(default=False)
