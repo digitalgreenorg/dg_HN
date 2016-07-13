@@ -60,11 +60,11 @@ class PersonAdoptPractice(CocoModel):
     verified_by = models.IntegerField(max_length=1, choices=VERIFIED_BY, null=True, blank=True)
     date_of_verification = models.DateField(null=True,blank=True)
     promote_practice = models.BooleanField(default=False)
-    n1 = models.BooleanField(default=False)
-    n2 = models.BooleanField(default=False)
-    n3 = models.BooleanField(default=False)
-    n4 = models.BooleanField(default=False)
-    n5 = models.BooleanField(default=False)
+    n_one = models.BooleanField(db_index=True,default=False)
+    n_two = models.BooleanField(db_index=True,default=False)
+    n_three = models.BooleanField(db_index=True,default=False)
+    n_four = models.BooleanField(db_index=True,default=False)
+    n_five = models.BooleanField(db_index=True,default=False)
 
     def __unicode__(self):
         return "%s (%s) (%s) (%s) (%s)" % (self.person.person_name, self.person.father_name, self.person.group.group_name if self.person.group else '', self.person.village.village_name, self.video.title)
