@@ -765,11 +765,33 @@
                 	<div class="col-sm-4">
                         <input class="date-picker inl_date form-control" id="date" type="text" placeholder="YYYY-MM-DD" name="date_of_verification" onkeydown="return false;">  
                  	</div>
-                 </div>
+                </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label notbold">Problems faced with knowledge retention and promotion</label>
+                    <label class="control-label col-sm-2">Did the member 'recall' non-negotiable points ?</label>
                     <div class="col-sm-4">
-                        <textarea name="problem_faced" class="input-xlarge form-control" rows="4" placeholder="problem_faced"></textarea>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="n_one<%=index%>" value="1" name="n_one<%=index%>">n1
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="n_two<%=index%>" value="1" name="n_two<%=index%>">n2
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="n_three<%=index%>" value="1" name="n_three<%=index%>">n3
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="n_four<%=index%>" value="1" name="n_four<%=index%>">n4
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="n_five<%=index%>" value="1" name="n_five<%=index%>">n5
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Did the member report promoting the practice in the community ?</label>
+                    <div class="col-sm-4">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="promote_practice<%=index%>" value="1" name="promote_practice<%=index%>">Promote Practice
+                    </label>
                     </div>
                 </div>
         </fieldset>
@@ -826,6 +848,9 @@
                         <th class = "notbold">
                             Did the member 'recall' non-negotiable points ?
                         </th>
+                        <th class = "notbold col-sm-3">
+                            Did the member report promoting the practice in the community ?
+                        </th>
                         <th>
                             Date of verification
                         </th>
@@ -838,7 +863,7 @@
 </script>
 
 <script type="text/template" id="adoption_inline_header">
-    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th>Did the member 'recall' non-negotiable points ?</th><th> Date Of verification</th></tr>
+    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th>Did the member 'recall' non-negotiable points ?</th><th>Did the member report promoting the practice in the community ?</th><th> Date Of verification</th></tr>
 </script>
 
 <script type="text/template" id="adoption_inline">
@@ -900,14 +925,22 @@
                 </label>
             </div>
         </td>
+
+        <td>
+            <div class="form-group">
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="promote_practice<%=index%>" value="1" name="promote_practice<%=index%>">Promote Practice
+                </label>
+            </div>
+        </td>
+
         <td>
             <div class="form-group">
                 <div class="controls">
                     <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_verification<%=index%>" name="date_of_verification<%=index%>" required onkeydown="return false;">
                 </div>
             </div>
-        </td>
-        
+        </td> 
     </tr>
 </script>
 
