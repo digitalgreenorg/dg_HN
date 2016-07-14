@@ -7,6 +7,8 @@ from geographies.models import Village
 from programs.models import Partner
 from people.models import Animator, Person
 
+from django.core.validators import MaxValueValidator
+
 
 class PracticeSector(CocoModel):
     id = models.AutoField(primary_key=True)
@@ -89,7 +91,7 @@ pre_delete.connect(delete_log, sender=Language)
 class Video(CocoModel):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
-    video_type = models.IntegerField(max_length=1, choices=VIDEO_TYPE)
+    video_type = models.IntegerField(choices=VIDEO_TYPE, validators=[MaxValueValidator(9)])
     duration = models.TimeField(null=True, blank=True)
     language = models.ForeignKey(Language)
     benefit = models.TextField(blank=True)
@@ -100,9 +102,9 @@ class Video(CocoModel):
     related_practice = models.ForeignKey(Practice, blank=True, null=True)
     youtubeid = models.CharField(max_length=20, blank=True)
     partner = models.ForeignKey(Partner)
-    review_status = models.IntegerField(max_length=1,choices=VIDEO_REVIEW,default=0)
+    review_status = models.IntegerField(choices=VIDEO_REVIEW,default=0, validators=[MaxValueValidator(9)])
     video_grade = models.CharField(max_length=1,choices=VIDEO_GRADE,null=True,blank=True)
-    reviewer = models.IntegerField(max_length=1, choices=REVIEW_BY, null=True, blank=True)
+    reviewer = models.IntegerField(choices=REVIEW_BY, null=True, blank=True, validators=[MaxValueValidator(9)])
 
     class Meta:
         unique_together = ("title", "production_date", "language", "village")

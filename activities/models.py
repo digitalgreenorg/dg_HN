@@ -11,7 +11,7 @@ from people.models import Animator, Person, PersonGroup
 from videos.models import Video
 from coco.base_models import ADOPTION_VERIFICATION, SCREENING_OBSERVATION, SCREENING_GRADE, VERIFIED_BY, ATTENDED_PERSON_CATEGORY
 
-
+from django.core.validators import MaxValueValidator
 
 class Screening(CocoModel):
     id = models.AutoField(primary_key=True)
@@ -21,11 +21,11 @@ class Screening(CocoModel):
     animator = models.ForeignKey(Animator)
     farmer_groups_targeted = models.ManyToManyField(PersonGroup)
     videoes_screened = models.ManyToManyField(Video)
-    farmers_attendance = models.ManyToManyField(Person, through='PersonMeetingAttendance', blank='False', null='False')
+    farmers_attendance = models.ManyToManyField(Person, through='PersonMeetingAttendance', blank='False')
     partner = models.ForeignKey(Partner)
-    observation_status = models.IntegerField(max_length=1, choices=SCREENING_OBSERVATION, default=0)
+    observation_status = models.IntegerField(choices=SCREENING_OBSERVATION, default=0, validators=[MaxValueValidator(9)])
     screening_grade = models.CharField(max_length=1,choices=SCREENING_GRADE,null=True,blank=True)
-    observer = models.IntegerField(max_length=1, choices=VERIFIED_BY, null=True, blank=True)
+    observer = models.IntegerField(choices=VERIFIED_BY, null=True, blank=True, validators=[MaxValueValidator(9)])
     problem_faced = models.TextField(blank=True)
 
     class Meta:
@@ -55,9 +55,9 @@ class PersonAdoptPractice(CocoModel):
     person = models.ForeignKey(Person)
     video = models.ForeignKey(Video)
     partner = models.ForeignKey(Partner)
-    verification_status = models.IntegerField(max_length=1, choices=ADOPTION_VERIFICATION, default=0)
+    verification_status = models.IntegerField(choices=ADOPTION_VERIFICATION, default=0, validators=[MaxValueValidator(9)])
     non_negotiable_check = models.CharField(max_length=256, blank=True, null=True)
-    verified_by = models.IntegerField(max_length=1, choices=VERIFIED_BY, null=True, blank=True)
+    verified_by = models.IntegerField(choices=VERIFIED_BY, null=True, blank=True, validators=[MaxValueValidator(9)])
     date_of_verification = models.DateField(null=True,blank=True)
     promote_practice = models.BooleanField(default=False)
     n_one = models.BooleanField(db_index=True,default=False)

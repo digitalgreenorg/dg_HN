@@ -103,6 +103,7 @@ ATTENDED_PERSON_CATEGORY = (
 )
 
 
+
 class CocoModel(models.Model):
     user_created = models.ForeignKey(User, related_name ="%(app_label)s_%(class)s_created", editable = False, null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)

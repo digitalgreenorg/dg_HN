@@ -6,6 +6,8 @@ from coco.base_models import CocoModel, DAY_CHOICES, GENDER_CHOICES
 from geographies.models import *
 from programs.models import Partner
 
+from django.core.validators import MaxValueValidator
+
 class Animator(CocoModel):
     id = models.AutoField(primary_key = True)
     name = models.CharField(max_length=100)
@@ -13,7 +15,7 @@ class Animator(CocoModel):
     phone_no = models.CharField(max_length=100, blank=True)
     partner = models.ForeignKey(Partner)
     district = models.ForeignKey(District, null=True, blank=True)
-    assigned_villages = models.ManyToManyField(Village, related_name='assigned_villages', through='AnimatorAssignedVillage', null=True, blank=True)
+    assigned_villages = models.ManyToManyField(Village, related_name='assigned_villages', through='AnimatorAssignedVillage', blank=True)
     total_adoptions = models.PositiveIntegerField(default=0, blank=True, editable=False) 
 
     class Meta:
@@ -57,7 +59,7 @@ class Person(CocoModel):
     id = models.AutoField(primary_key=True)
     person_name = models.CharField(max_length=100)
     father_name = models.CharField(max_length=100, blank=True)
-    age = models.IntegerField(max_length=3, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True, validators=[MaxValueValidator(999)])
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone_no = models.CharField(max_length=100, blank=True)
     village = models.ForeignKey(Village)
