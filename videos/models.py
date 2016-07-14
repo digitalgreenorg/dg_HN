@@ -7,9 +7,11 @@ from geographies.models import Village
 from programs.models import Partner
 from people.models import Animator, Person
 
+from django.core.validators import MaxValueValidator
+
+
 class PracticeSector(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -18,7 +20,6 @@ class PracticeSector(CocoModel):
 
 class PracticeSubSector(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -27,7 +28,6 @@ class PracticeSubSector(CocoModel):
 
 class PracticeTopic(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -36,7 +36,6 @@ class PracticeTopic(CocoModel):
 
 class PracticeSubtopic(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -45,7 +44,6 @@ class PracticeSubtopic(CocoModel):
 
 class PracticeSubject(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -54,7 +52,6 @@ class PracticeSubject(CocoModel):
 
 class Practice(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     practice_name = models.CharField(null=True, blank=True, max_length=200)
     practice_sector = models.ForeignKey(PracticeSector, default=1) 
     practice_subsector = models.ForeignKey(PracticeSubSector, null=True, blank=True)
@@ -77,7 +74,6 @@ class Practice(CocoModel):
 
 class Language(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     language_name = models.CharField(max_length=100, unique='True')
 
     def get_village(self):
@@ -94,39 +90,34 @@ pre_delete.connect(delete_log, sender=Language)
 
 class Video(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     title = models.CharField(max_length=200)
-    video_type = models.IntegerField(max_length=1, choices=VIDEO_TYPE)
+    video_type = models.IntegerField(choices=VIDEO_TYPE, validators=[MaxValueValidator(9)])
     duration = models.TimeField(null=True, blank=True)
     language = models.ForeignKey(Language)
-    summary = models.TextField(blank=True)
-    video_production_start_date = models.DateField()
-    video_production_end_date = models.DateField()
+    benefit = models.TextField(blank=True)
+    production_date = models.DateField()
     village = models.ForeignKey(Village)
-    facilitator = models.ForeignKey(Animator, related_name='facilitator')
-    cameraoperator = models.ForeignKey(Animator, related_name='cameraoperator')
+    production_team = models.ManyToManyField(Animator)
     approval_date = models.DateField(null=True, blank=True)
-    video_suitable_for = models.IntegerField(choices=SUITABLE_FOR)
     related_practice = models.ForeignKey(Practice, blank=True, null=True)
-    farmers_shown = models.ManyToManyField(Person)
-    actors = models.CharField(max_length=1, choices=ACTORS)
     youtubeid = models.CharField(max_length=20, blank=True)
     partner = models.ForeignKey(Partner)
-    review_status = models.IntegerField(max_length=1,choices=VIDEO_REVIEW,default=0)
+    review_status = models.IntegerField(choices=VIDEO_REVIEW,default=0, validators=[MaxValueValidator(9)])
     video_grade = models.CharField(max_length=1,choices=VIDEO_GRADE,null=True,blank=True)
-    reviewer = models.IntegerField(max_length=1, choices=REVIEW_BY, null=True, blank=True)
+    reviewer = models.IntegerField(choices=REVIEW_BY, null=True, blank=True, validators=[MaxValueValidator(9)])
 
     class Meta:
-        unique_together = ("title", "video_production_start_date", "video_production_end_date", "village")
+        unique_together = ("title", "production_date", "language", "village")
 
     def __unicode__(self):
         return  u'%s (%s)' % (self.title, self.village)
 
     def location(self):
         return u'%s (%s) (%s) (%s)' % (self.village.village_name, self.village.block.block_name, self.village.block.district.district_name, self.village.block.district.state.state_name)
-
 post_save.connect(save_log, sender=Video)
 pre_delete.connect(delete_log, sender=Video)
+
+
 
 class NonNegotiable(CocoModel):
     id = models.AutoField(primary_key=True)
@@ -139,7 +130,3 @@ class NonNegotiable(CocoModel):
 post_save.connect(save_log, sender=NonNegotiable)
 pre_delete.connect(delete_log, sender=NonNegotiable)
 
-class JSLPS_Video(CocoModel):
-    id = models.AutoField(primary_key=True)
-    vc = models.CharField(max_length=100)
-    video = models.ForeignKey(Video, null=True, blank=True)

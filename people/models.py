@@ -6,15 +6,16 @@ from coco.base_models import CocoModel, DAY_CHOICES, GENDER_CHOICES
 from geographies.models import *
 from programs.models import Partner
 
+from django.core.validators import MaxValueValidator
+
 class Animator(CocoModel):
     id = models.AutoField(primary_key = True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone_no = models.CharField(max_length=100, blank=True)
     partner = models.ForeignKey(Partner)
     district = models.ForeignKey(District, null=True, blank=True)
-    assigned_villages = models.ManyToManyField(Village, related_name='assigned_villages', through='AnimatorAssignedVillage', null=True, blank=True)
+    assigned_villages = models.ManyToManyField(Village, related_name='assigned_villages', through='AnimatorAssignedVillage', blank=True)
     total_adoptions = models.PositiveIntegerField(default=0, blank=True, editable=False) 
 
     class Meta:
@@ -41,7 +42,6 @@ class AnimatorAssignedVillage(CocoModel):
 
 class PersonGroup(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     group_name = models.CharField(max_length=100)
     village = models.ForeignKey(Village)
     partner = models.ForeignKey(Partner)
@@ -57,10 +57,9 @@ pre_delete.connect(delete_log, sender=PersonGroup)
 
 class Person(CocoModel):
     id = models.AutoField(primary_key=True)
-    old_coco_id = models.BigIntegerField(editable=False, null=True)
     person_name = models.CharField(max_length=100)
     father_name = models.CharField(max_length=100, blank=True)
-    age = models.IntegerField(max_length=3, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True, validators=[MaxValueValidator(999)])
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone_no = models.CharField(max_length=100, blank=True)
     village = models.ForeignKey(Village)
@@ -82,23 +81,3 @@ class Person(CocoModel):
 post_save.connect(save_log, sender=Person)
 pre_delete.connect(delete_log, sender=Person)
 
-class JSLPS_Animator(CocoModel):
-    id = models.AutoField(primary_key=True)
-    animator_code = models.CharField(max_length=100)
-    animator = models.ForeignKey(Animator, null=True, blank=True)
-    assigned_villages = models.ManyToManyField(JSLPS_Village, related_name='jslps_assigned_villages', through='JSLPS_AnimatorAssignedVillage', null=True, blank=True)
-
-class JSLPS_AnimatorAssignedVillage(CocoModel):
-    id = models.AutoField(primary_key=True)
-    animator = models.ForeignKey(JSLPS_Animator)
-    village = models.ForeignKey(JSLPS_Village)
-    
-class JSLPS_Persongroup(CocoModel):
-    id = models.AutoField(primary_key=True)
-    group_code = models.CharField(max_length=100) 
-    group = models.ForeignKey(PersonGroup, null=True, blank=True)
-
-class JSLPS_Person(CocoModel):
-    id = models.AutoField(primary_key=True)
-    person_code = models.CharField(max_length=100)
-    person = models.ForeignKey(Person, null=True, blank=True)

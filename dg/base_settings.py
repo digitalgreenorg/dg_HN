@@ -79,16 +79,15 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, 'templates/social_website'),
-    os.path.join(PROJECT_PATH, 'templates/videokheti'),
     os.path.join(PROJECT_PATH, 'templates'),
     os.path.join(PROJECT_PATH, 'templates/output'),
     os.path.join(PROJECT_PATH, 'templates/static_site'),
-    os.path.join(PROJECT_PATH, 'templates/farmerbook'),
+    #os.path.join(PROJECT_PATH, 'templates/farmerbook'),
     os.path.join(PROJECT_PATH, 'media/coco/app'),
     os.path.join(PROJECT_PATH, 'templates/deoanalytics'),
 	os.path.join(PROJECT_PATH, 'media/'),
     os.path.join(PROJECT_PATH, 'templates/data_upload'),
+    os.path.join(PROJECT_PATH, 'templates/admin'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -102,8 +101,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
-    "mezzanine.conf.context_processors.settings",
-    "mezzanine.pages.context_processors.page",
 )
 
 INSTALLED_APPS = (
