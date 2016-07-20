@@ -382,7 +382,7 @@ class VideoResource(BaseResource):
     def dehydrate_production_team(self, bundle):
         return [{'id': animator.id, 'name': animator.name} for animator in bundle.obj.production_team.all() ]
 
-class InfluencerResource(ModelResource):
+class InfluencerResource(BaseResource):
     village = fields.ForeignKey(VillageResource, 'village')
     mediator = fields.ForeignKey(MediatorResource, 'mediator')
     partner = fields.ForeignKey(PartnerResource, 'partner')
