@@ -679,7 +679,7 @@ function() {
         'rest_api_url': '/coco/api/v2/influencer/',
         'entity_name': 'influencer',
         'inc_table_name': 'influencers',
-        'list_elements': [{'header':'Screening Date','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Video','element':'video.title'}, {'header':'No. of Male','element':'number_of_male'}, {'header':'No. of Female','element':'number_of_female'}],
+        'list_elements': [{'header':'Screening Date','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Video','subelement':'title','element':'video'}, {'header':'No. of Male','element':'number_of_male'}, {'header':'No. of Female','element':'number_of_female'}],
         'unique_together_fields': ['date', 'village.id', 'mediator.id'],
         'foreign_entities': {
             'village': {
