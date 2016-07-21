@@ -12,7 +12,7 @@ from django.utils.encoding import smart_str
 from django.forms import TextInput, Textarea
 from coco.base_models import NONNEGOTIABLE_OPTION
 
-from activities.models import PersonMeetingAttendance, Screening, PersonAdoptPractice
+from activities.models import PersonMeetingAttendance, Screening, PersonAdoptPractice, PersonCategory
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
 from dashboard.forms import CocoUserForm
 from videos.models import  NonNegotiable
@@ -72,6 +72,10 @@ class ScreeningAdmin(admin.ModelAdmin):
 class InfluencersAdmin(admin.ModelAdmin):
     list_display = ('id', 'date', 'number_of_male', 'number_of_female')
     search_fields = ['id', 'village__village_name', 'partner__partner_name','animator__name', 'number_of_male', 'number_of_female']
+
+class PersonCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category_name')
+    search_fields = ['category_name']
 
 class NonNegotiablesInline(admin.TabularInline):
     model =  NonNegotiable

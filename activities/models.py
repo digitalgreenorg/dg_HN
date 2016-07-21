@@ -41,11 +41,19 @@ post_save.connect(save_log, sender=Screening)
 pre_delete.connect(delete_log, sender=Screening)
 
 
+class PersonCategory(CocoModel): 
+    id = models.AutoField(primary_key=True)
+    category_name = models.CharField(max_length=500, blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s' % (self.id)
+
+
 class PersonMeetingAttendance(CocoModel):
     id = models.AutoField(primary_key=True)
     screening = models.ForeignKey(Screening)
     person = models.ForeignKey(Person)
-    category = models.CharField(max_length=1, choices=ATTENDED_PERSON_CATEGORY)
+    personcategory = models.ForeignKey(PersonCategory)
 
     def __unicode__(self):
         return  u'%s' % (self.id)
@@ -93,4 +101,7 @@ class Influencers(CocoModel):
         unique_together = ("date", "mediator", "village")
 post_save.connect(save_log, sender=Influencers)
 pre_delete.connect(delete_log, sender=Influencers)
+
+
+
 

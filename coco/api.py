@@ -9,7 +9,7 @@ from tastypie.exceptions import NotFound
 from tastypie.resources import ModelResource
 from tastypie.validation import FormValidation
 
-from activities.models import Screening, PersonAdoptPractice, PersonMeetingAttendance, Influencers
+from activities.models import Screening, PersonAdoptPractice, PersonMeetingAttendance, Influencers, PersonCategory
 from geographies.models import Village, District, State
 from programs.models import Partner
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
@@ -464,6 +464,14 @@ class PersonGroupResource(BaseResource):
                 bundle.data['village'] = None
         return bundle
 
+class PersonCategoryResource(BaseResource):
+    class Meta:
+        max_limit = None
+        queryset = PersonCategory.objects.all()
+        resource_name = 'personcategory'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
 class ScreeningResource(BaseResource):
     village = fields.ForeignKey(VillageResource, 'village')
     animator = fields.ForeignKey(MediatorResource, 'animator')
@@ -501,7 +509,7 @@ class ScreeningResource(BaseResource):
             screening_id  = getattr(bundle.obj,'id')
             for pma in pma_list:
                 try:
-                    attendance = PersonMeetingAttendance(screening_id=screening_id, person_id=pma['person_id'], category=pma['category'], user_created_id = user_id,)
+                    attendance = PersonMeetingAttendance(screening_id=screening_id, person_id=pma['person_id'], personcategory=pma['personcategory'], user_created_id = user_id,)
                     attendance.save()
                 except Exception, e:
                     raise PMANotSaved('For Screening with id: ' + str(screening_id) + ' pma is not getting saved. pma details: '+ str(e))
@@ -521,7 +529,7 @@ class ScreeningResource(BaseResource):
         del_objs = PersonMeetingAttendance.objects.filter(screening__id=screening_id).delete()
         pma_list = bundle.data.get('farmers_attendance')
         for pma in pma_list:
-            pma = PersonMeetingAttendance(screening_id=screening_id, person_id=pma['person_id'], category=pma['category'], user_created_id = user_id)
+            pma = PersonMeetingAttendance(screening_id=screening_id, person_id=pma['person_id'], personcategory=pma['personcategory'], user_created_id = user_id)
             pma.save()
         return bundle
 
@@ -534,7 +542,7 @@ class ScreeningResource(BaseResource):
     def dehydrate_farmers_attendance(self, bundle):
         return [{'person_id':pma.person.id,
                  'person_name': pma.person.person_name,
-                 'category': pma.category,
+                 'personcategory': pma.personcategory,
                  }  for pma in bundle.obj.personmeetingattendance_set.all()]
 
 class PersonResource(BaseResource):

@@ -77,6 +77,7 @@ function() {
                         foreign_fields: { // any more field in expanded template for offline to online conv
                             "expressed_adoption_video": {
                                 entity_name: "video"  //the entity_name for this f_entity element
+          
                             }
                         },
                         extra_fields: ["expressed_question", "interested", "expressed_adoption_video"]
@@ -353,6 +354,16 @@ function() {
         }
     };
 
+    var personcategory_configs = {
+        'rest_api_url': '/coco/api/v2/personcategory/',
+        'entity_name': 'personcategory',
+        'sort_field': 'category_name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+
     var nonnegotiable_configs = {
         'rest_api_url': '/coco/api/v2/nonnegotiable/',
         'entity_name': 'nonnegotiable',
@@ -604,6 +615,9 @@ function() {
                             "expressed_adoption_video": {
                                 name_field: 'title'
                             }
+                            /*"personcategory": {
+                                name_field: 'category_name'
+                            }*/
                         },
                         foreign_entities: { // any more field in expanded template for offline to online conv
                             video:{
@@ -611,9 +625,15 @@ function() {
                                     entity_name: "video",
                                     name_field: 'title'
                                 }
+                            },
+                            personcategory:{
+                                "personcategory": {
+                                    entity_name: "personcategory",
+                                    name_field: 'category_name'
+                                }
                             }
                         },
-                        extra_fields: ["category", "expressed_question", "interested", "expressed_adoption_video"]
+                        extra_fields: ["personcategory", "expressed_question", "interested", "expressed_adoption_video"]
                     }
                 }
             }
@@ -1093,6 +1113,7 @@ function() {
         district: district_configs,
         nonnegotiable: nonnegotiable_configs,
         influencer: influencer_configs,
+        personcategory: personcategory_configs,
         misc: misc
     }
 
