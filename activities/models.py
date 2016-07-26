@@ -87,7 +87,10 @@ class Influencers(CocoModel):
     number_of_female = models.IntegerField(null=True, blank=True)
 
     def __unicode__(self):
-        return  u'%s' % (self.id)
+        return u'%s' % (self.village.village_name)
+
+    class Meta:
+        unique_together = ("date", "mediator", "village")
 post_save.connect(save_log, sender=Influencers)
 pre_delete.connect(delete_log, sender=Influencers)
 
