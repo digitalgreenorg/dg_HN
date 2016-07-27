@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('docfile', models.FileField(upload_to=b'documents')),
-                ('upload_DateTime', models.DateTimeField(default=datetime.datetime(2016, 7, 12, 9, 54, 9, 381000))),
+                ('upload_DateTime', models.DateTimeField(default=datetime.datetime(2016, 7, 27, 9, 52, 27, 838000))),
                 ('user_id', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),

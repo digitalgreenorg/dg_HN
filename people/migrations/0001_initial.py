@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 from django.conf import settings
+import django.core.validators
 
 
 class Migration(migrations.Migration):
@@ -50,7 +51,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True)),
                 ('person_name', models.CharField(max_length=100)),
                 ('father_name', models.CharField(max_length=100, blank=True)),
-                ('age', models.IntegerField(max_length=3, null=True, blank=True)),
+                ('age', models.IntegerField(blank=True, null=True, validators=[django.core.validators.MaxValueValidator(999)])),
                 ('gender', models.CharField(max_length=1, choices=[(b'M', b'Male'), (b'F', b'Female')])),
                 ('phone_no', models.CharField(max_length=100, blank=True)),
                 ('date_of_joining', models.DateField(null=True, blank=True)),
@@ -101,7 +102,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='animator',
             name='assigned_villages',
-            field=models.ManyToManyField(related_name='assigned_villages', null=True, through='people.AnimatorAssignedVillage', to='geographies.Village', blank=True),
+            field=models.ManyToManyField(related_name='assigned_villages', through='people.AnimatorAssignedVillage', to='geographies.Village', blank=True),
         ),
         migrations.AddField(
             model_name='animator',

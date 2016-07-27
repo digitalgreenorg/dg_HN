@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 from django.conf import settings
+import django.core.validators
 
 
 class Migration(migrations.Migration):
@@ -33,9 +34,6 @@ class Migration(migrations.Migration):
                 ('video', models.ManyToManyField(to='videos.Video')),
                 ('village', models.ForeignKey(to='geographies.Village')),
             ],
-            options={
-                'abstract': False,
-            },
         ),
         migrations.CreateModel(
             name='PersonAdoptPractice',
@@ -43,16 +41,16 @@ class Migration(migrations.Migration):
                 ('time_created', models.DateTimeField(auto_now_add=True, null=True)),
                 ('time_modified', models.DateTimeField(auto_now=True, null=True)),
                 ('id', models.AutoField(serialize=False, primary_key=True)),
-                ('verification_status', models.IntegerField(default=0, max_length=1, choices=[(0, b'Not Checked'), (1, b'Approved'), (2, b'Rejected')])),
+                ('verification_status', models.IntegerField(default=0, choices=[(0, b'Not Checked'), (1, b'Approved'), (2, b'Rejected')], validators=[django.core.validators.MaxValueValidator(9)])),
                 ('non_negotiable_check', models.CharField(max_length=256, null=True, blank=True)),
-                ('verified_by', models.IntegerField(blank=True, max_length=1, null=True, choices=[(0, b'Digital Green'), (1, b'Partner'), (2, b'Third Party')])),
-                ('date_of_verification', models.DateField(null=True)),
+                ('verified_by', models.IntegerField(blank=True, choices=[(0, b'Digital Green'), (1, b'Partner'), (2, b'Third Party')], null=True, validators=[django.core.validators.MaxValueValidator(9)])),
+                ('date_of_verification', models.DateField(null=True, blank=True)),
                 ('promote_practice', models.BooleanField(default=False)),
-                ('n1', models.BooleanField(default=False)),
-                ('n2', models.BooleanField(default=False)),
-                ('n3', models.BooleanField(default=False)),
-                ('n4', models.BooleanField(default=False)),
-                ('n5', models.BooleanField(default=False)),
+                ('n_one', models.BooleanField(default=False, db_index=True)),
+                ('n_two', models.BooleanField(default=False, db_index=True)),
+                ('n_three', models.BooleanField(default=False, db_index=True)),
+                ('n_four', models.BooleanField(default=False, db_index=True)),
+                ('n_five', models.BooleanField(default=False, db_index=True)),
                 ('partner', models.ForeignKey(to='programs.Partner')),
                 ('person', models.ForeignKey(to='people.Person')),
                 ('user_created', models.ForeignKey(related_name='activities_personadoptpractice_created', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
@@ -81,13 +79,13 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True)),
                 ('date', models.DateField()),
                 ('location', models.CharField(max_length=200, blank=True)),
-                ('observation_status', models.IntegerField(default=0, max_length=1, choices=[(0, b'Not Observed'), (1, b'Observed')])),
+                ('observation_status', models.IntegerField(default=0, choices=[(0, b'Not Observed'), (1, b'Observed')], validators=[django.core.validators.MaxValueValidator(9)])),
                 ('screening_grade', models.CharField(blank=True, max_length=1, null=True, choices=[(b'A', b'A'), (b'B', b'B'), (b'C', b'C'), (b'D', b'D')])),
-                ('observer', models.IntegerField(blank=True, max_length=1, null=True, choices=[(0, b'Digital Green'), (1, b'Partner'), (2, b'Third Party')])),
+                ('observer', models.IntegerField(blank=True, choices=[(0, b'Digital Green'), (1, b'Partner'), (2, b'Third Party')], null=True, validators=[django.core.validators.MaxValueValidator(9)])),
                 ('problem_faced', models.TextField(blank=True)),
                 ('animator', models.ForeignKey(to='people.Animator')),
                 ('farmer_groups_targeted', models.ManyToManyField(to='people.PersonGroup')),
-                ('farmers_attendance', models.ManyToManyField(to='people.Person', null=b'False', through='activities.PersonMeetingAttendance', blank=b'False')),
+                ('farmers_attendance', models.ManyToManyField(to='people.Person', through='activities.PersonMeetingAttendance', blank=b'False')),
                 ('partner', models.ForeignKey(to='programs.Partner')),
                 ('user_created', models.ForeignKey(related_name='activities_screening_created', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
                 ('user_modified', models.ForeignKey(related_name='activities_screening_related_modified', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
@@ -117,5 +115,9 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='personadoptpractice',
             unique_together=set([('person', 'video', 'date_of_verification')]),
+        ),
+        migrations.AlterUniqueTogether(
+            name='influencers',
+            unique_together=set([('date', 'mediator', 'village')]),
         ),
     ]

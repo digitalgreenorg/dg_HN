@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 from django.conf import settings
+import django.core.validators
 
 
 class Migration(migrations.Migration):
@@ -133,15 +134,15 @@ class Migration(migrations.Migration):
                 ('time_modified', models.DateTimeField(auto_now=True, null=True)),
                 ('id', models.AutoField(serialize=False, primary_key=True)),
                 ('title', models.CharField(max_length=200)),
-                ('video_type', models.IntegerField(max_length=1, choices=[(1, b'Demonstration'), (2, b'Success story/ Testimonial'), (3, b'Activity Introduction'), (4, b'Discussion'), (5, b'General Awareness')])),
+                ('video_type', models.IntegerField(choices=[(1, b'Demonstration'), (2, b'Success story/ Testimonial'), (3, b'Activity Introduction'), (4, b'Discussion'), (5, b'General Awareness')], validators=[django.core.validators.MaxValueValidator(9)])),
                 ('duration', models.TimeField(null=True, blank=True)),
                 ('benefit', models.TextField(blank=True)),
                 ('production_date', models.DateField()),
                 ('approval_date', models.DateField(null=True, blank=True)),
                 ('youtubeid', models.CharField(max_length=20, blank=True)),
-                ('review_status', models.IntegerField(default=0, max_length=1, choices=[(0, b'Not Reviewed'), (1, b'Reviewed')])),
+                ('review_status', models.IntegerField(default=0, choices=[(0, b'Not Reviewed'), (1, b'Reviewed')], validators=[django.core.validators.MaxValueValidator(9)])),
                 ('video_grade', models.CharField(blank=True, max_length=1, null=True, choices=[(b'A', b'A'), (b'B', b'B'), (b'C', b'C')])),
-                ('reviewer', models.IntegerField(blank=True, max_length=1, null=True, choices=[(0, b'Digital Green'), (1, b'Partner')])),
+                ('reviewer', models.IntegerField(blank=True, choices=[(0, b'Digital Green'), (1, b'Partner')], null=True, validators=[django.core.validators.MaxValueValidator(9)])),
                 ('language', models.ForeignKey(to='videos.Language')),
                 ('partner', models.ForeignKey(to='programs.Partner')),
                 ('production_team', models.ManyToManyField(to='people.Animator')),
