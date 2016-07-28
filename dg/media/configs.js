@@ -673,7 +673,7 @@ function() {
     };
 
     var influencer_configs = {
-        'page_header': 'Influencer',
+        'page_header': 'Screening for Influencer',
         'add_template_name': 'influencer_add_edit_template',
         'edit_template_name': 'influencer_add_edit_template',
         'rest_api_url': '/coco/api/v2/influencer/',
