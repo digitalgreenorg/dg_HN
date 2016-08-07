@@ -65,6 +65,7 @@ class PersonAdoptPractice(CocoModel):
     n_three = models.BooleanField(db_index=True,default=False)
     n_four = models.BooleanField(db_index=True,default=False)
     n_five = models.BooleanField(db_index=True,default=False)
+    adopt_practice = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s (%s) (%s) (%s) (%s)" % (self.person.person_name, self.person.father_name, self.person.group.group_name if self.person.group else '', self.person.village.village_name, self.video.title)
