@@ -589,19 +589,19 @@ h1 small{
     }
 
 	.groupadd td:nth-of-type(1):before { content: "Person Name"; }
-	.groupadd td:nth-of-type(2):before { content: "Father Name"; }
+	.groupadd td:nth-of-type(2):before { content: "Father/Husband Name"; }
 	.groupadd td:nth-of-type(3):before { content: "Age"; }
 	.groupadd td:nth-of-type(4):before { content: "Gender"; }
 	.groupadd td:nth-of-type(5):before { content: "Phone No."; }
     
 	.screeningadd td:nth-of-type(1):before { content: "Delete?"; }
 	.screeningadd td:nth-of-type(2):before { content: "Sr. No"; }
-	.screeningadd td:nth-of-type(3):before { content: "Person"; }
+	.screeningadd td:nth-of-type(3):before { content: "Person(Father)"; }
 	.screeningadd td:nth-of-type(4):before { content: "Category"; }
     
     .adoptionadd td:nth-of-type(1):before { content: "Delete?"; }
 	.adoptionadd td:nth-of-type(2):before { content: "Sr. No."; }
-    .adoptionadd td:nth-of-type(2):before { content: "Person"; }
+    .adoptionadd td:nth-of-type(2):before { content: "Person(Father)"; }
 	.adoptionadd td:nth-of-type(4):before { content: "Did the member 'recall' non-negotiable points ?"; }
 	.adoptionadd td:nth-of-type(5):before { content: "Did the member report promoting the practice in the community ?"; }
 	.adoptionadd td:nth-of-type(6):before { content: "Date of verification"; }
