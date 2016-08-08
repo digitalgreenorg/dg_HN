@@ -481,7 +481,7 @@ function() {
         'rest_api_url': '/coco/api/v2/screening/',
         'entity_name': 'screening',
         download_chunk_size: 1000,
-        'unique_together_fields': ['date', 'start_time', 'village.id', 'animator.id'],
+        'unique_together_fields': ['date', 'village.id', 'animator.id'],
         afterSave: function(off_json, Offline){
             var dfd = new $.Deferred();
             var videos_shown = off_json.videoes_screened;
@@ -625,10 +625,6 @@ function() {
                     required: true,
                     validateDate: true,
                 },
-                start_time: {
-                    required: true,
-                    validateTime: true
-                },
                 animator: "required",
                 village: "required",
                 videoes_screened: "required",
@@ -639,10 +635,6 @@ function() {
 				date: {
 					required: 'Screening date is required',
 					validateDate: 'Enter screening date in the form of YYYY-MM-DD',
-				},
-				start_time: {
-					required: 'Screening start time is required',
-					validateTime: 'Enter the start time in the form of HH:MM. Use 24 hour format',
 				},
 				animator: "Mediator is required",
 				village:"Village is required",

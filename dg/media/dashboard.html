@@ -547,13 +547,6 @@
                         <input class="date-picker form-control" id="date" type="text" placeholder="YYYY-MM-DD" name="date" onkeydown="return false;">  
                  	</div>
                 </div>
-                <div class="form-group ">
-                    <label class="control-label col-sm-2">Start Time</label>
-                 	<div class="controls bootstrap-timepicker col-sm-4">
-                        <input class="time-picker form-control" id="start_time" type="text" placeholder="HH:MM" name="start_time">
-                 	</div>
-                 	<div class="help-block col-sm-4">Use 24 hour format</div>
-                </div>
                 <div class="form-group">
                     <label class="control-label col-sm-2">Village</label>
                 	<div class="col-sm-4"> 
@@ -787,6 +780,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-sm-2">Did member adopt the practice?</label>
+                    <div class="col-sm-4">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="adopt_practice" value="1" name="adopt_practice">Adopt Practice
+                    </label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-sm-2">Did the member report promoting the practice in the community ?</label>
                     <div class="col-sm-4">
                     <label class="checkbox-inline">
@@ -848,7 +849,10 @@
                         <th class = "notbold">
                             Did the member 'recall' non-negotiable points ?
                         </th>
-                        <th class = "notbold col-sm-3">
+                        <th class = "notbold">
+                            Did member adopt the pratice?
+                        </th>
+                        <th class = "notbold col-sm-2">
                             Did the member report promoting the practice in the community ?
                         </th>
                         <th>
@@ -863,7 +867,7 @@
 </script>
 
 <script type="text/template" id="adoption_inline_header">
-    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th>Did the member 'recall' non-negotiable points ?</th><th>Did the member report promoting the practice in the community ?</th><th> Date Of verification</th></tr>
+    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th>Did the member 'recall' non-negotiable points ?</th><th>Did member adopt the pratice?</th><th>Did the member report promoting the practice in the community ?</th><th> Date Of verification</th></tr>
 </script>
 
 <script type="text/template" id="adoption_inline">
@@ -922,6 +926,14 @@
                 </label>
                 <label class="checkbox-inline">
                     <input type="checkbox" id="n_five<%=index%>" value="1" name="n_five<%=index%>">n5
+                </label>
+            </div>
+        </td>
+
+        <td>
+            <div class="form-group">
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="adopt_practice<%=index%>" value="1" name="adopt_practice<%=index%>">Adopt Practice
                 </label>
             </div>
         </td>
