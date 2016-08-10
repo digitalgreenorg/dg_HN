@@ -237,6 +237,32 @@ function() {
                     'name_field': 'language_name'
                 }
             },
+            'category': {
+                "category": {
+                    'placeholder': 'id_category',
+                    'name_field': 'category_name'
+                }
+            },
+            'subcategory': {
+                "subcategory": {
+                    'placeholder': "id_subcategory",
+                    'name_field': "subcategory_name",
+                    'dependency': [{
+                        'source_form_element': 'category',
+                        'dep_attr': 'category'
+                    }]
+                }
+            },
+            'videopractice': {
+                "videopractice": {
+                    'placeholder': "id_videopractice",
+                    'name_field': "videopractice_name",
+                    'dependency': [{
+                        'source_form_element': 'subcategory',
+                        'dep_attr': 'subcategory'
+                    }]
+                }
+            }
         },
         'inline': {
             'entity': 'nonnegotiable',
@@ -347,6 +373,52 @@ function() {
         'rest_api_url': '/coco/api/v2/language/',
         'entity_name': 'language',
         'sort_field': 'language_name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+
+    var category_configs = {
+        'rest_api_url': '/coco/api/v2/category/',
+        'entity_name': 'category',
+        'sort_field': 'category_name',
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+
+    var subcategory_configs = {
+        'rest_api_url': '/coco/api/v2/subcategory/',
+        'entity_name': 'subcategory',
+        'sort_field': 'subcategory_name',
+        'foreign_entities': {
+            'category': {
+                'category': {
+                    'placeholder': 'id_category',
+                    'name_field': 'category_name'
+                }
+            }
+        },
+        'dashboard_display': {
+            listing: false,
+            add: false
+        }
+    };
+
+    var videopractice_configs = {
+        'rest_api_url': '/coco/api/v2/videopractice/',
+        'entity_name': 'videopractice',
+        'sort_field': 'videopractice_name',
+        'foreign_entities': {
+            'subcategory': {
+                'subcategory': {
+                    'placeholder': 'id_subcategory',
+                    'name_field': 'subcategory_name'
+                }
+            }
+        },
         'dashboard_display': {
             listing: false,
             add: false
@@ -1082,6 +1154,9 @@ function() {
         screening: screening_configs,
         adoption: adoption_configs,
         language: language_configs,
+        category: category_configs,
+        subcategory: subcategory_configs,
+        videopractice: videopractice_configs,
         district: district_configs,
         nonnegotiable: nonnegotiable_configs,
         influencer: influencer_configs,
