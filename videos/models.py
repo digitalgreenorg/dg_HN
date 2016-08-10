@@ -87,6 +87,53 @@ class Language(CocoModel):
 post_save.connect(save_log, sender=Language)
 pre_delete.connect(delete_log, sender=Language)
 
+class Category(CocoModel):
+    id = models.AutoField(primary_key=True)
+    category_name = models.CharField(max_length=100, unique='True')
+
+    def get_village(self):
+        return None
+
+    def get_partner(self):
+        return None
+    
+    class Meta:
+        verbose_name_plural = "categories"
+
+    def __unicode__(self):
+        return self.category_name
+
+class SubCategory(CocoModel):
+    id = models.AutoField(primary_key=True)
+    category = models.ForeignKey(Category)
+    subcategory_name = models.CharField(max_length = 100)
+
+    def get_village(self):
+        return None
+
+    def get_partner(self):
+        return None
+    
+    class Meta:
+        verbose_name_plural = "sub categories"
+
+    def __unicode__(self):
+        return self.subcategory_name
+
+class VideoPractice(CocoModel):
+    id = models.AutoField(primary_key=True)
+    subcategory = models.ForeignKey(SubCategory)
+    videopractice_name = models.CharField(max_length = 100)
+
+    def get_village(self):
+        return None
+
+    def get_partner(self):
+        return None
+    
+    def __unicode__(self):
+        return self.videopractice_name
+
 
 class Video(CocoModel):
     id = models.AutoField(primary_key=True)
@@ -98,6 +145,9 @@ class Video(CocoModel):
     production_date = models.DateField()
     village = models.ForeignKey(Village)
     production_team = models.ManyToManyField(Animator)
+    category = models.ForeignKey(Category, null=True, blank=True)
+    subcategory = models.ForeignKey(SubCategory, null=True, blank=True)
+    videopractice = models.ForeignKey(VideoPractice, null=True, blank=True)
     approval_date = models.DateField(null=True, blank=True)
     related_practice = models.ForeignKey(Practice, blank=True, null=True)
     youtubeid = models.CharField(max_length=20, blank=True)

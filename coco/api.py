@@ -13,7 +13,7 @@ from activities.models import Screening, PersonAdoptPractice, PersonMeetingAtten
 from geographies.models import Village, District, State
 from programs.models import Partner
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
-from videos.models import Video, Language, NonNegotiable
+from videos.models import Video, Language, NonNegotiable, Category, SubCategory, VideoPractice
 from models import CocoUser
 
 # Will need to changed when the location of forms.py is changed
@@ -360,18 +360,27 @@ class VideoResource(BaseResource):
     production_team = fields.ToManyField('coco.api.MediatorResource', 'production_team')
     language = fields.ForeignKey('coco.api.LanguageResource', 'language')
     partner = fields.ForeignKey(PartnerResource, 'partner')
+    category = fields.ForeignKey('coco.api.CategoryResource', 'category', null=True)
+    subcategory = fields.ForeignKey('coco.api.SubCategoryResource', 'subcategory', null=True)
+    videopractice = fields.ForeignKey('coco.api.VideoPracticeResource', 'videopractice', null=True)
     
     dehydrate_village = partial(foreign_key_to_id, field_name='village', sub_field_names=['id','village_name'])
     dehydrate_language = partial(foreign_key_to_id, field_name='language', sub_field_names=['id','language_name'])
+    dehydrate_category = partial(foreign_key_to_id, field_name='category', sub_field_names=['id','category_name'])
+    dehydrate_subcategory = partial(foreign_key_to_id, field_name='subcategory', sub_field_names=['id','subcategory_name'])
+    dehydrate_videopractice = partial(foreign_key_to_id, field_name='videopractice', sub_field_names=['id','videopractice_name'])
     hydrate_village = partial(dict_to_foreign_uri, field_name ='village')
     hydrate_language = partial(dict_to_foreign_uri, field_name='language')
+    hydrate_category = partial(dict_to_foreign_uri, field_name='category')
+    hydrate_subcategory = partial(dict_to_foreign_uri, field_name='subcategory', resource_name='subcategory')
+    hydrate_videopractice = partial(dict_to_foreign_uri, field_name='videopractice', resource_name='videopractice')
 
     hydrate_production_team = partial(dict_to_foreign_uri_m2m, field_name = 'production_team', resource_name = 'mediator')
     hydrate_partner = partial(assign_partner)
     
     class Meta:
         max_limit = None
-        queryset = Video.objects.prefetch_related('village', 'language', 'production_team', 'partner').all()
+        queryset = Video.objects.prefetch_related('village', 'language', 'production_team', 'partner', 'category','subcategory').all()
         resource_name = 'video'
         authentication = SessionAuthentication()
         authorization = VideoAuthorization()
@@ -608,3 +617,33 @@ class LanguageResource(ModelResource):
         resource_name = 'language'
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+class CategoryResource(ModelResource):    
+    class Meta:
+        max_limit = None
+        queryset = Category.objects.all()
+        resource_name = 'category'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+class SubCategoryResource(ModelResource):  
+    category = fields.ForeignKey(CategoryResource, 'category')
+    class Meta:
+        max_limit = None
+        queryset = SubCategory.objects.all()
+        resource_name = 'subcategory'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+    dehydrate_category = partial(foreign_key_to_id, field_name='category',sub_field_names=['id','category_name'])
+    hydrate_category = partial(dict_to_foreign_uri, field_name='category', resource_name='category')
+
+class VideoPracticeResource(ModelResource):  
+    subcategory = fields.ForeignKey(SubCategoryResource, 'subcategory')
+    class Meta:
+        max_limit = None
+        queryset = VideoPractice.objects.all()
+        resource_name = 'videopractice'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+    dehydrate_subcategory = partial(foreign_key_to_id, field_name='subcategory',sub_field_names=['id','subcategory_name'])
+    hydrate_category = partial(dict_to_foreign_uri, field_name='subcategory', resource_name='subcategory')

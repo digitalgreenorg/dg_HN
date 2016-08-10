@@ -15,7 +15,7 @@ from coco.base_models import NONNEGOTIABLE_OPTION
 from activities.models import PersonMeetingAttendance, Screening, PersonAdoptPractice
 from people.models import Animator, AnimatorAssignedVillage, Person, PersonGroup
 from dashboard.forms import CocoUserForm
-from videos.models import  NonNegotiable
+from videos.models import  NonNegotiable, Category, SubCategory
 
 class PersonMeetingAttendanceForm(forms.ModelForm):
     person = forms.ModelChoiceField(Animator.objects.none())
@@ -194,6 +194,14 @@ class DistrictAdmin(admin.ModelAdmin):
 class StateAdmin(admin.ModelAdmin):
     list_display = ('state_name',)
     search_fields = ['state_name', 'country__country_name']
+
+class SubCategoryAdmin(admin.ModelAdmin):
+    list_display = ('subcategory_name', 'category')
+    search_fields = ['subcategory_name', 'category__category_name']
+
+class VideoPracticeAdmin(admin.ModelAdmin):
+    list_display = ('videopractice_name', 'subcategory')
+    search_fields = ['videopractice_name', 'subcategory__subcategory_name']
 
 class PracticesAdmin(admin.ModelAdmin):
     list_display = ('id', 'practice_sector', 'practice_subject', 'practice_subsector', 'practice_topic', 'practice_subtopic')
