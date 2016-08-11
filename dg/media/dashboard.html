@@ -846,6 +846,9 @@
                         <th>
                             Person(Father)(Group)(id)
                         </th>
+                        <th>
+                            Date of verification
+                        </th>
                         <th class = "notbold">
                             Did the member 'recall' non-negotiable points ?
                         </th>
@@ -854,9 +857,6 @@
                         </th>
                         <th class = "notbold col-sm-2">
                             Did the member report promoting the practice in the community ?
-                        </th>
-                        <th>
-                            Date of verification
                         </th>
                     </tr>
                 </thead>
@@ -867,7 +867,7 @@
 </script>
 
 <script type="text/template" id="adoption_inline_header">
-    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th>Did the member 'recall' non-negotiable points ?</th><th>Did member adopt the pratice?</th><th>Did the member report promoting the practice in the community ?</th><th> Date Of verification</th></tr>
+    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th> Date Of verification</th><th>Did the member 'recall' non-negotiable points ?</th><th>Did member adopt the pratice?</th><th>Did the member report promoting the practice in the community ?</th></tr>
 </script>
 
 <script type="text/template" id="adoption_inline">
@@ -910,6 +910,15 @@
                 </div>
             </div>
         </td>
+
+        <td>
+            <div class="form-group">
+                <div class="controls">
+                    <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_verification<%=index%>" name="date_of_verification<%=index%>" required onkeydown="return false;">
+                </div>
+            </div>
+        </td> 
+
         <td>
             <div class="form-group">
                 <label class="checkbox-inline">
@@ -946,13 +955,6 @@
             </div>
         </td>
 
-        <td>
-            <div class="form-group">
-                <div class="controls">
-                    <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_verification<%=index%>" name="date_of_verification<%=index%>" required onkeydown="return false;">
-                </div>
-            </div>
-        </td> 
     </tr>
 </script>
 
