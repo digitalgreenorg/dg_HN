@@ -69,10 +69,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Uploading</h3>
+                    <h3><%= configs['misc']['meta_'+language]['upload'] %></h3>
                 </div>
                 <div class="modal-body">
-                    Data items to be uploaded = <span id="num_upload"> </span>
+                    <%= configs['misc']['meta_'+language]['upload_total'] %> = <span id="num_upload"> </span>
                     <br>
                     <div class="progress progress-info progress-striped">
                         <div class="progress-bar" id = "pbar" style="width: 0%"></div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="stop_upload" type="button" class="btn">Stop It!</button>
+                    <button id="stop_upload" type="button" class="btn"><%= configs['misc']['meta_'+language]['stop'] %></button>
                 </div>
             </div>
         </div>
@@ -99,24 +99,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Upload Error</h3>
-                    <h4>Internet connectivity lost. Please try after sometime!</h4>
+                    <h3><%= configs['misc']['meta_'+language]['error'] %></h3>
+                    <h4><%= configs['misc']['meta_'+language]['upload_error'] %></h4>
                 </div>
                 <div class="modal-body">
                     <br>
                     <table class="table">
-                        <tr><td>Total data to be uploaded:</td> 
+                        <tr><td><%= configs['misc']['meta_'+language]['upload_total'] %>:</td> 
                             <td id="upl_total"> </td>
                         </tr>
-                        <tr><td>Data uploaded:</td>
+                        <tr><td><%= configs['misc']['meta_'+language]['upload_done'] %>:</td>
                             <td id="upl_done"> </td>
-                        </tr><td>Data pending to be uploaded:</td>
+                        </tr><td><%= configs['misc']['meta_'+language]['upload_pending'] %>:</td>
                             <td id="upl_pending"> </td>                           
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button id="Ok" type="button" class="btn">Ok</button>
+                    <button id="Ok" type="button" class="btn"><%= configs['misc']['meta_'+language]['close'] %></button>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Downloading</h3>
+                    <h3><%= all_configs['misc']['meta_'+language]['download'] %></h3>
                 </div>
                 <div class="modal-body">
                     <div class="progress progress-info progress-striped">
@@ -141,7 +141,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button id="stop_inc_download" type="button" class="btn">Stop It!</button>
+                    <button id="stop_inc_download" type="button" class="btn"><%= all_configs['misc']['meta_'+language]['stop'] %></button>
                 </div>
             </div>
         </div>
@@ -164,7 +164,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Download</h3>
+                    <h3><%= all_configs['misc']['meta_'+language]['download'] %></h3>
                 </div>
                 <div class="modal-body">
                     <div class="progress progress-info progress-striped">
@@ -174,11 +174,12 @@
                         <table class="table" style="width:100%">
                             <%$.each(all_configs, function(key,val) {
                                 if(key!="misc"){
-                                var keyCap = key.charAt(0).toUpperCase() + key.slice(1);
+                                //console.log(all_configs[key]['config_'+language]);
+                                var keyCap = all_configs[key]['config_'+language];
                                 %>
                                 <tr id="<%=key%>">
-                                    <td><%= keyCap %>s</td>
-                                    <td class="status_text">In Progress</td>
+                                    <td><%= keyCap %></td>
+                                    <td class="status_text"><%= all_configs['misc']['meta_'+language]['inprogress'] %></td>
                                     <td class="status_numbers"></td>
                                 </tr>
                             <%}});%>
@@ -186,7 +187,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id = "stop_full_download" type="button" class="btn btn-danger" disabled>Pause download</button>
+                    <% var pause_download = all_configs['misc']['meta_'+language]['stop'];%>
+                    <button id = "stop_full_download" type="button" class="btn btn-danger" disabled><%= pause_download %></button>
                 </div>
             </div> <!-- modal-content -->
         </div> <!-- modal-dialog -->
@@ -217,7 +219,8 @@
                     <a href="#">COCO</a>
                 </div>
                 <div id="coco_sync" class="row">
-                    <button class="btn pull-left" id= "sync">Sync
+                    <% var sync = configs['misc']['meta_'+language]['sync'];%>
+                    <button class="btn pull-left" id= "sync"><%= sync %>
                     <span class="badge" id="upload_num"><%=upload_entries%></span>
                     </button>
                 </div>
@@ -235,17 +238,19 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
+                            
                             <button type="button" class="coco_sync btn btn-default" id="sync">
-                                Sync
+                                <%=configs['misc']['meta_'+language]['sync'] %>
                                 <span class="badge" id="upload_num"><%=upload_entries%></span>
                             </button>
                         </div>
                     </div>
                     <p id="helptext">
-                    Please download the database by clicking on the sync button
+                    Please download the database<br>
+                    by clicking on the sync button
                     </p>
                     <div class="row">
-                        <div id="coco_nav" class="col-lg-2 col-md-3 col-sm-4 col-xs-10 navbar-collapse collapse">
+                        <div id="coco_nav" class="col-lg-1 col-md-2 col-sm-3 col-xs-10 navbar-collapse collapse">
                             <ul id = "dashboard_items" class="nav nav-pills nav-stacked" title= "Click to view, search or edit data">
 
                             </ul>
@@ -277,7 +282,20 @@
     </div>
     <div class="col-xs-4 align-center coco-brand"><a href="#"> Health and Nutrition COCO </a></div>
     <div class="col-xs-4 align-right">
-        <a id="help" href="{% url 'faq' %}"> Help </a>
+        <% if(language === undefined){ language = configs.misc.meta_default}; %>
+        <div class="btn-group">
+            <button class="btn btn-default" style="margin-right:10px" type="button" id="language" data-toggle="dropdown" aria-expanded="true">
+                <%=language%>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="language">
+                <% _.each(configs.misc.languages, function(language) { %>
+                    <li role="presentation" class="js_language" name="<%= language %>"><a role="menuitem" tabindex="-1" href="#"><%= language %></a></li>
+                <% }); %>
+            
+            </ul>
+        </div>
+        <a  id="help" href="{% url 'faq' %}"> <%= configs['misc']['meta_'+language]['help']%> </a>
         <img src="/media/coco/app/images/default.png" class="img-responsive img-user mrg-lt-5">
         <img id= "online" src="/media/coco/app/images/online.png" title= "You are online" class="connection-indicator"/>
         <img id= "offline" src="/media/coco/app/images/offline.png" title= "You are offline" class="connection-indicator"/>
@@ -285,10 +303,10 @@
     <div class="user-dropdown-div">
         <div class="user-dropdown js-user-dropdown">
             <ul class="pdg-0">
+                <% if(language === undefined){ language = configs.misc.meta_default}; %>
                 <%if(typeof(username)!=undefined){%>
                 <li class="user-dropdown-option">Hi <%=username%>!</li>
-                <li class="user-dropdown-option" id="dropdown-help"><a href="{% url 'faq' %}"> Help </a></li>
-                <li class="user-dropdown-option"><a id="logout" style="cursor:pointer">Log out</a></li>
+                <li class="user-dropdown-option"><a id="logout" style="cursor:pointer"><%= configs['misc']['meta_'+language]['logout']%></a></li>
                 <%}%>
             </ul>
         </div>
@@ -297,64 +315,61 @@
 
 <script type="text/template" id="status">
     <div id="modal"></div>
-	<div class="page-header mrg-top-0">
-	    <h1 style = "color:#047d0a;"> Welcome to Health and Nutrition COCO!
+    <div class="page-header mrg-top-0">
+        <h1 style = "color:#047d0a;"> <%= configs['misc']['meta_'+language]['line_1'] %>
             <br>
-                <small>COCO helps you to seamlessly enter data in conditions of intermittent connectivity.</small>
+                <small><%= configs['misc']['meta_'+language]['line_2'] %></small>
             </br>
         </h1>
-	</div>
-	<div class="media">
-		<a class="pull-left hide-media" >
-		<img class="media-object" src="/media/coco/app/images/add.png" style = "width:70px;">
-		</a>
-		<div class="media-body">
-		<h5 class="media-heading">Add data</h5>
-		To add some data, click on (+) sign next to the type of data that you want to add.
-		</div>
-	</div>
+    </div>
+    <div class="media">
+        <a class="pull-left hide-media" >
+        <img class="media-object" src="/media/coco/app/images/add.png" style = "width:70px;">
+        </a>
+        <div class="media-body">
+        <h5 class="media-heading"><%= configs['misc']['meta_'+language]['line_3'] %></h5>
+        <%= configs['misc']['meta_'+language]['line_4'] %>
+        </div>
+    </div>
 
-	<div class="media">
-		<a class="pull-left hide-media">
-		<img class="media-object" src="/media/coco/app/images/table.png" style = "width:70px;">
-		</a>
-		<div class="media-body">
-		<h5 class="media-heading">View Data</h5>
-		To view, sort and search through your data, click on the data link in the sidebar.
-		</div>
-	</div>
+    <div class="media">
+        <a class="pull-left hide-media">
+        <img class="media-object" src="/media/coco/app/images/table.png" style = "width:70px;">
+        </a>
+        <div class="media-body">
+        <h5 class="media-heading"><%= configs['misc']['meta_'+language]['line_5'] %></h5>
+        <%= configs['misc']['meta_'+language]['line_6'] %>
+        </div>
+    </div>
 
-	<div class="media">
-		<a class="pull-left hide-media">
-		<img class="media-object" src="/media/coco/app/images/sync.png" style = "width:70px;">
-		</a>
-		<div class="media-body">
-		<h5 class="media-heading"> Sync data</h5>
-		To sync data with the server, click on the sync button. While syncing, if some data is rejected by the server,
-		you will get the opportunity to correct the data, or in case of duplicate entries, to discard it.
-		The number in the button shows how many entries are yet to be uploaded.
-		Clicking on the sync button will also download the database if it is not completely downloaded.
-		</div>
-	</div>
+    <div class="media">
+        <a class="pull-left hide-media">
+        <img class="media-object" src="/media/coco/app/images/sync.png" style = "width:70px;">
+        </a>
+        <div class="media-body">
+        <h5 class="media-heading"><%= configs['misc']['meta_'+language]['line_7'] %></h5>
+        <%= configs['misc']['meta_'+language]['line_8'] %>
+        </div>
+    </div>
 
-	<div class="media">
-		<a class="pull-left hide-media">
-		<img class="media-object" src="/media/coco/app/images/feedback.png" style = "width:70px;">
-		</a>
-		<div class="media-body">
-		<h5 class="media-heading"> We value your feedback</h5>
-		Do share your feedback by mailing us at <a href="mailto:system@digitalgreen.org">system@digitalgreen.org</a>
-		</div>
-	</div>
+    <div class="media">
+        <a class="pull-left hide-media">
+        <img class="media-object" src="/media/coco/app/images/feedback.png" style = "width:70px;">
+        </a>
+        <div class="media-body">
+        <h5 class="media-heading"> <%= configs['misc']['meta_'+language]['line_9'] %></h5>
+        <%= configs['misc']['meta_'+language]['line_10'] %>
+        </div>
+    </div>
 
     <div style = "color:#999999; margin-top:25px;">
-        <b>Database last deleted and downloaded at </b><%=full_d_timestamp%>
+        <b><%= configs['misc']['meta_'+language]['line_11'] %></b><%=full_d_timestamp%>
     </div><br>
     <div style = "color:#999999; margin-top:-15px;">
-        <b>Database last synced at </b><%=inc_d_timestamp%>
+        <b><%= configs['misc']['meta_'+language]['line_12'] %></b><%=inc_d_timestamp%>
     </div><br>
     <div class="row pull-left" style="margin-left:0px; margin-right:10px; margin-top:-15px;color:#999999;">
-        <b>Entries to upload </b>
+        <b><%= configs['misc']['meta_'+language]['line_13'] %></b>
     </div>
     <div class="accordion" style="margin-left:0px; margin-right:0px; margin-top:-8px;">
         <div class="accordion-heading">
@@ -365,13 +380,13 @@
         <div id="collapseOne" class="accordion-body collapse" >
             <div class="accordion-inner" style="height:300px;overflow-y:auto">
                 <table class="table">
-        		    <th> Id </th>
+                    <th> Id </th>
                     <th> Type</th>
-        			<th> Add/Edit </th>
-        			<th> Data </th>
+                    <th> Add/Edit </th>
+                    <th> Data </th>
                     <tbody>
                         <% $.each(upload_collection, function(index, obj){%>
-                			<tr>
+                            <tr>
                                 <td>
                                     <%=obj.id%>
                                 </td>
@@ -386,19 +401,20 @@
                                 </td>
                             </tr>    
                         <%})%>
-        			</tbody>
-        		</table>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <button id="reset_database" class="btn btn-small btn-primary mrg-top-20" title= "Delete your database and download fresh database from server">Delete and Download Database</button>
+    <button id="reset_database" class="btn btn-small btn-primary mrg-top-20" title= "Delete your database and download fresh database from server"><%= configs['misc']['meta_'+language]['delete_download'] %></button>
 </script>
 
 <script type="text/template" id="form_template">
     <div id = "form_div">
         <form name="<%=entity_name%>" class="">
-                        
-            <%=form_template%>
+            
+            <div id = "form_template_render">
+            </div>            
         
             <% if (inline == true) { %>
                 <table id= "inline" class="table">
@@ -408,7 +424,7 @@
         
                     </tbody>
                 </table>
-                <button id='add_rows' type= "button" class="btn btn-default btn-sm mrg-btm-sm col-sm-offset-2">Add empty rows</button>
+                <button id='add_rows' type= "button" class="btn btn-default btn-sm mrg-btm-sm col-sm-offset-2"><%= add_row %></button>
             <% } %>
         
             <div class="form-actions">
@@ -418,16 +434,16 @@
                 <%}%>
             </div>
         </form>
-	
+    
     </div>
 </script>
 
 <script type="text/template" id="dashboard_breadcrumb">
-	<li class='active' >Dashboard</li>
+    <li class='active' >Dashboard</li>
 </script>
 
 <script type="text/template" id="list_breadcrumb">
-	<li><a href='#'>Dashboard</a> <span class='divider'>/</span></li><li class='active'><%= bread %></li>
+    <li><a href='#'>Dashboard</a> <span class='divider'>/</span></li><li class='active'><%= bread %></li>
 </script>
 
 <script type="text/template" id="add_edit_breadcrumb">
@@ -437,17 +453,15 @@
 </script>
 <script  type="text/template" id="list_view_template">
     <div id="legend">
-    	<legend class=""><%= page_header %></legend>
+        <legend class=""><%= page_header %></legend>
     </div>
-	<div class="table-responsive">
+    <div class="table-responsive">
        <table id= "list_table" class="table table-striped display">
        </table>
-	</div>
-	<div id="loaderimg"><img src="/media/coco/app/images/loading_text.gif" /></div>
+    </div>
+    <div id="loaderimg"><img src="/media/coco/app/images/loading_text.gif" /></div>
 
-	<p id="sort-helptext" style="margin-top:50px; font-size:11px; color:grey; font-style:italic; display:none;">
-	For multiple column sorting, press and hold the shift key while sorting each column.
-	</p>
+    <p id="sort-helptext" style="margin-top:50px; font-size:11px; color:grey; font-style:italic; display:none;"><%= list_page_help %>
 </script>
 
 <script type="text/template" id="options_template">
@@ -466,14 +480,23 @@
                 <form action="" role="form">
                     <fieldset>
                         <div class="clearfix form-group">
-                            <%if(typeof(username)=="undefined"){%>
+                            <%if(typeof(user.username)=="undefined"){%>
                             <input id="username" type="text" placeholder="Username" class="form-control">
                             <%}else{%>
-                            <input id="username" type="text" placeholder="Username" class= "form-control" value="<%= username%>" disabled>
+                            <input id="username" type="text" placeholder="Username" class= "form-control" value="<%= user.username%>" disabled>
                             <%}%>
                         </div>
                         <div class="clearfix form-group">
                             <input id="password" type="password" placeholder="Password" class="form-control">
+                        </div>
+                        <div class="clearfix form-group">
+                            <select id="language" type="text" placeholder="Language" class="form-control">
+                                <option value='English' selected='selected'>English</option>
+                                <% _.each(configs.misc.languages, function(language) { 
+                                    if(language != 'English'){%>
+                                    <option value="<%= language %>"><%= language %></option> 
+                                    <% }}); %>
+                            </select>
                         </div>
                         <button id= "login_button" class="btn btn-primary" type="submit" data-loading-text="Logging In...">Sign in</button>
                         <br><a id="change_user">Sign in as a different user</a>
@@ -491,16 +514,16 @@
 <!--///////////////////////////////////////////////////// MEDIATOR ADD/EDIT TEMPLATES START ///////////////////////////////////////////-->
 <script type="text/template" id="mediator_add_edit_template">
     <fieldset class="form-horizontal">
-        <legend>Add Mediator</legend>
-		<p class="bold-helptext"> All fields in bold are required</p>
+        <legend><%= mediator %></legend>
+        
         <div class="form-group">
-            <label class="control-label col-sm-2"><b>Name</b></label>
+            <label class="control-label col-sm-2"><b><%= name %></b></label>
             <div class="col-sm-4">
                 <input type="text" name="name" class="form-control">
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2"><b>Gender</b></label>
+            <label class="control-label col-sm-2"><b><%= gender %></b></label>
             <div class="col-sm-4">
                 <select name="gender" class="form-control">
                     <option value='' selected='selected'>----------</option> 
@@ -510,7 +533,7 @@
             </div>
         </div> 
         <div class="form-group"> 
-            <label class="control-label col-sm-2"><b>Assigned Villages</b></label>
+            <label class="control-label col-sm-2"><b><%= assigned_villages %></b></label>
             <div class="col-sm-4">
                 <select id = "id_ass_villages" name="assigned_villages" class = "chosen-select form-control" multiple>
                 
@@ -518,7 +541,7 @@
             </div>
         </div>
         <div class="form-group"> 
-            <label class="control-label col-sm-2"><b>District</b></label>
+            <label class="control-label col-sm-2"><b><%= district %></b></label>
             <div class="col-sm-4">
                 <select id = "id_district" name="district" class = "chosen-select form-control">
                
@@ -526,9 +549,15 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2 notbold">Phone number</label>
+            <label class="control-label col-sm-2 notbold"><%= phone_number %></label>
             <div class="col-sm-4">
                 <input name="phone_no" type="text" placeholder="Phone Number" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label class="control-label col-sm-2 notbold">Role</label>
+            <div class="col-sm-4">
+                <input name="role" value='1' class="form-control">
             </div>
         </div>
     </fieldset>
@@ -539,16 +568,15 @@
 <!--///////////////////////////////////////////////// SCREENING ADD/EDIT TEMPLATES START //////////////////////////////////////////////-->
 <script type="text/template" id="screening_add_edit_template">
             <fieldset class="form-horizontal">
-                <legend>Add Screening</legend>
-				<p class="bold-helptext"> All fields in bold are required</p>
+                <legend><%= screening %></legend>
                 <div class="form-group"> 
-                    <label class="control-label col-sm-2">Date</label>
+                    <label class="control-label col-sm-2"><%= date %></label>
                 	<div class="col-sm-4">
                         <input class="date-picker form-control" id="date" type="text" placeholder="YYYY-MM-DD" name="date" onkeydown="return false;">  
                  	</div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Village</label>
+                    <label class="control-label col-sm-2"><%= village %></label>
                 	<div class="col-sm-4"> 
                         <select name="village" id="id_village" class="chosen-select form-control" placeholder="Enter animator to enable">
                         <option value='' selected='selected'>---------</option> 
@@ -556,7 +584,7 @@
                 	</div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Mediator</label>
+                    <label class="control-label col-sm-2"><%= mediator %></label>
                  	<div class="col-sm-4"> 
                         <select name="animator" id="id_animator" class="chosen-select form-control">
                             <option value='' selected='selected'>---------</option> 
@@ -564,26 +592,26 @@
                	    </div>
                 </div>
                 <div class="form-group"> 
-                    <label class="control-label col-sm-2">Videos Screened</label>
+                    <label class="control-label col-sm-2"><%= videos_screened %></label>
                 	<div class="col-sm-4"> 
                 	   <select multiple="multiple" name="videoes_screened" id = "id_videoes_screened" class="chosen-select form-control">
                         </select> 
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Groups Attended</label>
+                    <label class="control-label col-sm-2"><%= groups_attended %></label>
                     <div class="col-sm-4">
                         <select id="id_group"  name = "farmer_groups_targeted" multiple="multiple" class="chosen-select form-control"></select> 
                     </div>
                 </div>
                 <div class="form-group">
-                	<label class="control-label col-sm-2 notbold">Person</label>
+                	<label class="control-label col-sm-2 notbold"><%= person %></label>
                 	<div class="col-sm-4">
                         <select id="id_person" name = "person" class="chosen-select form-control" multiple="multiple"></select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label notbold">Problems faced in understanding the video</label>
+                    <label class="col-sm-2 control-label notbold"><%= problem_faced %></label>
                     <div class="col-sm-4">
                         <textarea name="problem_faced" class="input-xlarge form-control" rows="4" placeholder="problem_faced"></textarea>
                     </div>
@@ -591,21 +619,20 @@
                     <br>
             </fieldset>
             <fieldset class = "inline_table">
-            	<h5>Attendance</h5>
                 <table id="pma_table" class="table">
                     <thead class="hide-header">
                         <tr>
                             <th class="notbold">
-                                Delete?
+                                <%= del %>?
                             </th>
                             <th class="notbold">
-                                Sr. No.
+                                <%= sr_no %>
                             </th>
                             <th class="notbold">
-                                Person(Father)(Group)(id)
+                                <%= person %>
                             </th>
                             <th class="notbold">
-                                Category
+                                <%= category %>
                             </th>
                         </tr>
                     </thead>
@@ -616,6 +643,7 @@
 </script>
 
 <script type="text/template" id="person_pma_template">
+<% var class_ln = $.trim($('#language').text()); $( ".stack-table").addClass("screeningadd_"+class_ln);%>
     <tr class="stack-table screeningadd" id="row7" index = <%=index%> person_id = <%=id%> model_id = <%=id%>>
         <td>
             <div class="form-group">
@@ -660,7 +688,7 @@
                 <div class="controls">
                     <select required name="category<%=index%>" class="chosen-select form-control">
                         <option value='' selected='selected'>-----------</option>
-                        <option value='0'>Pregnant Woman1</option>
+                        <option value='0'>Pregnant Woman</option>
                         <option value='1'>Mother of child &lt; 5 years old</option>
                         <option value='2'>Adolescent girl (10-19 years old)</option>
                         <option value='3'>Other Female</option>
@@ -679,16 +707,15 @@
 
 <script type="text/template" id="influencer_add_edit_template">
             <fieldset class="form-horizontal">
-                <legend>Add Screening For Influencer</legend>
-                <p class="bold-helptext"> All fields in bold are required</p>
+                <legend><%= influencer %></legend>
                 <div class="form-group"> 
-                    <label class="control-label col-sm-2">Date</label>
+                    <label class="control-label col-sm-2"><%= date %></label>
                     <div class="col-sm-4">
                         <input class="date-picker form-control" id="date" type="text" placeholder="YYYY-MM-DD" name="date" onkeydown="return false;">  
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Village</label>
+                    <label class="control-label col-sm-2"><%= village %></label>
                     <div class="col-sm-4"> 
                         <select name="village" id="id_village" class="chosen-select form-control" placeholder="Enter animator to enable">
                         <option value='' selected='selected'>---------</option> 
@@ -696,7 +723,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Mediator</label>
+                    <label class="control-label col-sm-2"><%= mediator %></label>
                     <div class="col-sm-4"> 
                         <select name="mediator" id="id_animator" class="chosen-select form-control">
                             <option value='' selected='selected'>---------</option> 
@@ -704,26 +731,26 @@
                     </div>
                 </div>
                 <div class="form-group"> 
-                    <label class="control-label col-sm-2">Videos Screened</label>
+                    <label class="control-label col-sm-2"><%= videos_screened %></label>
                     <div class="col-sm-4"> 
                        <select multiple="multiple" name="video" id = "id_videoes_screened" class="chosen-select form-control">
                         </select> 
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Groups</label>
+                    <label class="control-label col-sm-2"><%= groups_attended %></label>
                     <div class="col-sm-4">
                         <select id="id_group" name = "group" multiple="multiple" class="chosen-select form-control"></select> 
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label notbold">No. of Male Participants</label>
+                    <label class="col-sm-2 control-label notbold"><%= number_of_male %></label>
                     <div class="col-sm-4">
                         <input name="number_of_male" type="text" class="input form-control"  placeholder="Number of male" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label notbold">No. of Female Participants</label>
+                    <label class="col-sm-2 control-label notbold"><%= number_of_female %></label>
                     <div class="col-sm-4">
                         <input name="number_of_female" type="text" class="input form-control"  placeholder="Number of female" />
                     </div>
@@ -738,9 +765,9 @@
 <!--///////////////////////////////////////////////// ADOPTION ADD/EDIT TEMPLATES START //////////////////////////////////////////////-->
 <script type="text/template" id="adoption_edit_template">
         <fieldset class="form-horizontal">
-                <legend>Edit Adoption</legend>
+                <legend><%= adoption %></legend>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Person</label>
+                    <label class="control-label col-sm-2"><%= person%></label>
                 	<div class="col-sm-4"> 
                         <select name="person" id="id_person" class="chosen-select form-control">
                         <option value="">---------- </option>
@@ -748,19 +775,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Video Screened</label>
+                    <label class="control-label col-sm-2"><%= video %></label>
                     <div class="col-sm-4">
                         <select name="video" id="id_video" class="chosen-select form-control"></select>
                     </div>
                 </div>
                 <div class="form-group"> 
-                    <label class="control-label col-sm-2">Date</label>
+                    <label class="control-label col-sm-2"><%=date_of_verification%></label>
                 	<div class="col-sm-4">
                         <input class="date-picker inl_date form-control" id="date" type="text" placeholder="YYYY-MM-DD" name="date_of_verification" onkeydown="return false;">  
                  	</div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Did the member 'recall' non-negotiable points ?</label>
+                    <label class="control-label col-sm-2"><%=recall_nonnegotiable%> ?</label>
                     <div class="col-sm-4">
                         <label class="checkbox-inline">
                             <input type="checkbox" id="n_one" value="1" name="n_one">n1
@@ -780,7 +807,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Did member adopt the practice?</label>
+                    <label class="control-label col-sm-2"><%=member_adopt%>?</label>
                     <div class="col-sm-4">
                     <label class="checkbox-inline">
                         <input type="checkbox" id="adopt_practice" value="1" name="adopt_practice">Adopt Practice
@@ -788,7 +815,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2">Did the member report promoting the practice in the community ?</label>
+                    <label class="control-label col-sm-2"><%=member_promote%> ?</label>
                     <div class="col-sm-4">
                     <label class="checkbox-inline">
                         <input type="checkbox" id="promote_practice" value="1" name="promote_practice">Promote Practice
@@ -800,10 +827,9 @@
 </script>
 <script type="text/template" id="adoption_add_template">
         <fieldset class="form-horizontal">
-            <legend>Add Adoption</legend>
-            <p class="bold-helptext"> All fields in bold are required</p>
+            <legend><%= adoption %></legend>
             <div class="form-group">
-                <label class="control-label col-sm-2">Village</label>
+                <label class="control-label col-sm-2"><%= village %></label>
                 <div class="col-sm-4"> 
                 <select name="village" id="id_village" class="chosen-select form-control">
                 <option value="">---------- </option>
@@ -811,7 +837,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Video</label>
+                <label class="control-label col-sm-2"><%= video %></label>
                 <div class="col-sm-4"> 
                 <select name="video" id="id_video" class="chosen-select form-control" required>
                 <option value="">---------- </option>
@@ -819,13 +845,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Groups</label>
+                <label class="control-label col-sm-2"><%= groups_attended %></label>
                 <div class="col-sm-4">
                     <select name="group" id="id_group" multiple="multiple" class="chosen-select form-control"></select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2 notbold">Person</label>
+                <label class="control-label col-sm-2 notbold"><%= person %></label>
                 <div class="col-sm-4">
                     <select name="float_person" id="id_person" multiple="multiple" class="chosen-select form-control"></select>
                 </div>
@@ -838,25 +864,25 @@
                 <thead>
                     <tr class="hide-header">
                         <th class= "notbold">
-                            Delete?
+                            <%=del%>?
                         </th>
                         <th class = "notbold">
-                            Sr. No.
+                            <%=sr_no%>
                         </th>
                         <th>
-                            Person(Father)(Group)(id)
+                            <%=person%>
                         </th>
                         <th>
-                            Date of verification
+                            <%=date_of_verification%>
                         </th>
                         <th class = "notbold">
-                            Did the member 'recall' non-negotiable points ?
+                            <%=recall_nonnegotiable%> ?
                         </th>
                         <th class = "notbold">
-                            Did member adopt the pratice?
+                            <%=member_adopt%>?
                         </th>
                         <th class = "notbold col-sm-2">
-                            Did the member report promoting the practice in the community ?
+                            <%=member_promote%> ?
                         </th>
                     </tr>
                 </thead>
@@ -867,10 +893,11 @@
 </script>
 
 <script type="text/template" id="adoption_inline_header">
-    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th> Date Of verification</th><th>Did the member 'recall' non-negotiable points ?</th><th>Did member adopt the pratice?</th><th>Did the member report promoting the practice in the community ?</th></tr>
+    <tr> <th> Delete?</th><th> Sr. No.</th><th> Person*</th><th> Date Of verification</th><th>Did the member 'recall' non-negotiable points ?</th><th>Did member adopt the practice?</th><th>Did the member report promoting the practice in the community ?</th></tr>
 </script>
 
 <script type="text/template" id="adoption_inline">
+<% var class_ln = $.trim($('#language').text()); $( ".stack-table").addClass("adoptionadd_"+class_ln);%>
     <tr class="stack-table adoptionadd" index = <%=index%> person_id = <%=id%> name="row<%=index%>">
     <td>
     <div class="form-group">
@@ -914,7 +941,7 @@
         <td>
             <div class="form-group">
                 <div class="controls">
-                    <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_verification<%=index%>" name="date_of_verification<%=index%>" required onkeydown="return false;">
+                    <input type="text" class="date-picker input-sm inl_date form-control" id="date_of_verification<%=index%>" name="date_of_verification<%=index%>" required>
                 </div>
             </div>
         </td> 
@@ -939,18 +966,18 @@
             </div>
         </td>
 
-        <td>
+        <td style="text-align:center;">
             <div class="form-group">
                 <label class="checkbox-inline">
-                    <input type="checkbox" id="adopt_practice<%=index%>" value="1" name="adopt_practice<%=index%>">Adopt Practice
+                    <input type="checkbox" id="adopt_practice<%=index%>" value="1" name="adopt_practice<%=index%>">
                 </label>
             </div>
         </td>
 
-        <td>
+        <td style="text-align:center;">
             <div class="form-group">
                 <label class="checkbox-inline">
-                    <input type="checkbox" id="promote_practice<%=index%>" value="1" name="promote_practice<%=index%>">Promote Practice
+                    <input type="checkbox" id="promote_practice<%=index%>" value="1" name="promote_practice<%=index%>">
                 </label>
             </div>
         </td>
@@ -963,16 +990,16 @@
 <!--////////////////////////////////////////////////// GROUP ADD/EDIT TEMPLATES START //////////////////////////////////////////////-->
 <script type="text/template" id="group_add_edit_template">
     <fieldset class="form-horizontal">
-        <legend>Add Group</legend>
-        <p class="bold-helptext"> All fields in bold are required</p>
+        <legend><%= group %></legend>
+        
         <div class="form-group"> 
-            <label class="control-label col-sm-2"><b>Name</b></label>
+            <label class="control-label col-sm-2"><b><%= name %></b></label>
             <div class="col-sm-4">
                 <input type="text" name="group_name" class="form-control">
             </div>
         </div>
         <div class="form-group"> 
-            <label class="control-label col-sm-2"><b>Village</b></label>
+            <label class="control-label col-sm-2"><b><%= village %></b></label>
             <div class="col-sm-4">
                 <select id = "id_village" name="village" class="chosen-select form-control">
                     <option value='' selected='selected'>---------</option> 
@@ -984,7 +1011,8 @@
 </script>
 
 <script type="text/template" id="person_inline">
-    <tr class="stack-table groupadd" index = <%=index%> name="row<%=index%>">
+    <% var class_ln = $.trim($('#language').text()); $( ".stack-table").addClass("groupadd_"+class_ln);%>
+    <tr class="stack-table " index = <%=index%> name="row<%=index%>">
         <td><div class="form-group"><div class="controls">
                 <input type="text" name="person_name<%=index%>" required minlength="2" allowedChar maxlength="100" class="donotvalidate form-control input-sm" >
             </div></div>
@@ -994,7 +1022,7 @@
             </div></div>
         </td>
         <td><div class="form-group"><div class="controls">
-                <input required class="input-mini donotvalidate form-control input-sm" type="text"  name="age<%=index%>" digits min="1" max="100">
+                <input class="input-mini donotvalidate form-control input-sm" type="text"  name="age<%=index%>" digits min="1" max="100">
             </div></div>
         </td>
         <td><div class="form-group"><div class="controls">
@@ -1013,7 +1041,7 @@
 </script>  
 
 <script type="text/template" id="person_inline_header">
-<tr class="hide-header"> <th> Person Name</th><th> Father/Husband Name</th><th> Age</th><th> Gender</th><th class="notbold"> Phone No</th></tr>
+<tr class="hide-header"> <th> <%= person_name %></th><th> <%= father_name %></th><th class = "notbold"> <%= age %></th><th> <%= gender %></th><th class="notbold"> <%= phone_no %></th></tr>
 </script>
 
 <!--//////////////////////////////////////////////////// GROUP ADD/EDIT TEMPLATES END ///////////////////////////////////////////////-->
@@ -1021,16 +1049,16 @@
 <!--///////////////////////////////////////////////////// VIDEO ADD/EDIT TEMPLATES START //////////////////////////////////////////////-->
 <script type="text/template" id="video_add_edit_template">
         <fieldset class="form-horizontal">
-            <legend>Add Video</legend>
-            <p class="bold-helptext"> All fields in bold are required</p>
+            <legend><%= video %></legend>
+            
             <div class="form-group">
-                <label class="col-sm-2 control-label">Title</label>
+                <label class="col-sm-2 control-label"><%= title %></label>
                 <div class="col-sm-4">
                     <input type="text" name="title" class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Video Type</label>
+                <label class="col-sm-2 control-label"><%= video_type %></label>
                 <div class="col-sm-4">
                     <select name="video_type" class="form-control">
                         <option value="" selected="selected">
@@ -1046,13 +1074,13 @@
                 </div>
             </div> 
             <div class="form-group">
-                <label class="control-label dis-block col-sm-2">Production Date</label>
+                <label class="control-label dis-block col-sm-2"><%= production_date %></label>
                 <div class="col-sm-4">
-                    <input class="date-picker form-control" id="production_date" name="production_date" type="text" class="form-control" placeholder="YYYY-MM-DD" onkeydown="return false;">
+                    <input class="date-picker form-control" id="production_date" name="production_date" type="text" class="form-control" placeholder="YYYY-MM-DD">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Language</label>
+                <label class="col-sm-2 control-label"><%= language %></label>
                 <div class="col-sm-4">
                     <select id = "id_language" name="language" class="chosen-select form-control">
                         <option selected="selected" value="">
@@ -1062,13 +1090,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label notbold">Benefit</label>
+                <label class="col-sm-2 control-label notbold"><%= benefit %></label>
                 <div class="col-sm-4">
-                    <textarea name="benefit" class="input-xlarge form-control" rows="4" placeholder="benefit"></textarea>
+                    <textarea name="benefit" class="input-xlarge form-control" rows="4"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label dis-block col-sm-2">Village</label>
+                <label class="control-label dis-block col-sm-2"><%= village %></label>
                 <div class="col-sm-4">
                     <select id = "id_village" name="village" class="chosen-select form-control">
                         <option value="">---------- </option>
@@ -1076,15 +1104,15 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label class="control-label dis-block col-sm-2"><b>Production Team</b></label>
+            <div class="form-group">                 
+                <label class="control-label dis-block col-sm-2"><b><%= production_team %></b></label>
                 <div class="col-sm-4">
                     <select size="20" class="chosen-select form-control" id = "id_production_team" name="production_team" multiple>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label notbold">Category</label>
+                <label class="col-sm-2 control-label"><%= category %></label>
                 <div class="col-sm-4">
                     <select id = "id_category" name="category" class="chosen-select form-control">
                         <option selected="selected" value="">
@@ -1094,42 +1122,41 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label notbold">Sub Category</label>
+                <label class="col-sm-2 control-label"><%= subcategory %></label>
                 <div class="col-sm-4">
                     <select id = "id_subcategory" name="subcategory" class="chosen-select form-control">
                         <option selected="selected" value="">
-                            Sub Category
                         </option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label notbold">Video Practice</label>
+                <label class="col-sm-2 control-label"><%= videopractice %></label>
                 <div class="col-sm-4">
                     <select id = "id_videopractice" name="videopractice" class="chosen-select form-control">
                         <option selected="selected" value="">
-                            Video Practice
                         </option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="dis-block control-label col-sm-2 notbold">Approval Date</label>
+                <label class="dis-block control-label col-sm-2 notbold"><%= approval_date %></label>
                 <div class="col-sm-4">
-                    <input class="date-picker form-control" id="approval_date" name="approval_date" type="text" placeholder="YYYY-MM-DD" onkeydown="return false;">
+                    <input class="date-picker form-control" id="approval_date" name="approval_date" type="text" placeholder="YYYY-MM-DD">
                 </div>
             </div>
             <div class="form-group">
-                <label class="dis-block col-sm-2 control-label notbold">Youtube Id</label>
+                <label class="dis-block col-sm-2 control-label notbold"><%= youtubeid %></label>
                 <div class="col-sm-4">
-                    <input name="youtubeid" type="text" placeholder="youtubeid" class="form-control"><br>
+                    <input name="youtubeid" type="text" class="form-control"><br>
                 </div>
             </div>
         </fieldset>
 </script>
 
 <script type="text/template" id="nonnegotiable_inline">
-    <tr class="stack-table videoadd" index = <%=index%> name="row<%=index%>">
+<% var class_ln = $.trim($('#language').text()); $( ".stack-table").addClass("videoadd_"+class_ln);%>
+    <tr class="stack-table" index = <%=index%> name="row<%=index%>">
     <td>
                 <%=index+1%>.</td>
 
@@ -1150,9 +1177,9 @@
 
 <script type="text/template" id="nonnegotiable_inline_header">
     <tr class="hide-header">  
-       <th class="col-md-1 control-label notbold"> Sr. No.</th>
-       <th class="col-md-6 control-label notbold"> Non Negotiables</th>
-       <th class="col-md-5 control-label notbold">Physically Verifiable</th>             
+       <th class="col-md-1 control-label notbold"><%= sr_no %></th>
+       <th class="col-md-6 control-label notbold"><%= non_n %></th>
+       <th class="col-md-5 control-label notbold"><%= physically_verifiable %></th>             
     </tr>
 </script>
 
@@ -1162,22 +1189,22 @@
 
 <script type="text/template" id="person_add_edit_template">
         <fieldset class="form-horizontal">
-            <legend>Add Person</legend>
-			<p class="bold-helptext"> All fields in bold are required</p>
+            <legend><%= person %></legend>
+            
             <div class="form-group"> 
-                <label class="control-label col-sm-2">Name</label>
-            	<div class="col-sm-4">
+                <label class="control-label col-sm-2"><%= name %></label>
+                <div class="col-sm-4">
                     <input type="text" name="person_name" class="form-control">
-             	</div>
+                </div>
             </div>
             <div class="form-group"> 
-                <label class="control-label col-sm-2">Father/Husband Name</label>
+                <label class="control-label col-sm-2"><%= father_name %></label>
                 <div class="col-sm-4"> 
                     <input type="text" name="father_name" class="form-control">
                 </div>
             </div>
             <div class="form-group"> 
-                <label class="control-label col-sm-2">Village</label>
+                <label class="control-label col-sm-2"><%= village %></label>
                 <div class="col-sm-4"> 
                     <select id = "id_village" name="village" class="chosen-select form-control">
                         
@@ -1185,7 +1212,7 @@
                 </div>
             </div>
             <div class="form-group"> 
-                <label class="control-label col-sm-2">Gender</label>
+                <label class="control-label col-sm-2"><%= gender %></label>
                 <div class="col-sm-4">
                     <select name="gender" class="form-control">
                         <option value='' selected='selected'>---------</option> 
@@ -1195,19 +1222,19 @@
                 </div>
             </div> 
             <div class="form-group">
-            	<label class="control-label col-sm-2">Age</label>
-            	<div class="col-sm-4"> 
-                    <input required class="input-mini form-control" name="age" type="text" placeholder="Age">
-            	</div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-2 notbold">Phone Number</label>
-                <div class="col-sm-4">
-                    <input name="phone_no" type="text" placeholder="Phone Number" class="form-control">
+                <label class="control-label col-sm-2 notbold"><%= age %></label>
+                <div class="col-sm-4"> 
+                    <input class="input-mini form-control" name="age" type="text">
                 </div>
             </div>
-			<div class="form-group"> 
-                <label class="control-label col-sm-2 notbold">Group</label> 
+            <div class="form-group">
+                <label class="control-label col-sm-2 notbold"><%= phone_no %></label>
+                <div class="col-sm-4">
+                    <input name="phone_no" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label col-sm-2 notbold"><%= group %></label> 
                 <div class="col-sm-4">
                     <select id = "id_group" name="group" class="chosen-select form-control">
                     
@@ -1216,6 +1243,7 @@
             </div>
         </fieldset>
 </script>
+
 <!--//////////////////////////////////////////////////// PERSON ADD/EDIT TEMPLATES END ///////////////////////////////////////////////-->
    
 </head>
