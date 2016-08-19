@@ -119,8 +119,13 @@ function() {
 
     var village_configs = {
         'page_header': 'Village',
+        'config_English': 'Villages',
+        'config_हिन्दी': 'गाँव',
+        'config_français': 'Villages',
+        'list_elements_English': [{'header':'ID','element':'online_id'},{'header':'Name','element':'village_name'},{'element':'block_name'},{'element':'start_date'},{'header':'State','element':'state_name'}],
+        'list_elements_हिन्दी': [{'header':'आईडी','element':'online_id'},{'header':'नाम','element':'village_name'},{'header':'ब्लॉक का नाम','element':'block_name'},{'header':'आरंभ होने की तिथि','element':'start_date'},{'header':'राज्य का नाम','element':'state_name'}],
+        'list_elements_français': [{'header':'Identité','element':'online_id'},{'header':'Nom','element':'village_name'},{'header':'Nom unite geographique','element':'block_name'},{'header':'Date de début','element':'start_date'},{'header':'Etat','element':'state_name'}],
         'rest_api_url': '/coco/api/v2/village/',
-        'list_elements': [{'header':'ID','element':'online_id'},{'header':'Name','element':'village_name'},{'element':'block_name'},{'element':'start_date'},{'header':'State','element':'state_name'}],
         'entity_name': 'village',
         'dashboard_display': {
             listing: true,
@@ -131,10 +136,18 @@ function() {
 
     var mediator_configs = {
         'page_header': 'Mediator',
+        'config_English': 'Mediators',
+        'config_हिन्दी': 'मध्यस्थ',
+        'config_français': 'Disséminateurs',
+        'labels_हिन्दी': {mediator: "मध्यस्थ", name: "नाम", district: "जिला", gender: "लिंग", phone_number: "फ़ोन नंबर", assigned_villages: "नियुक्त किए गये गाँव"},
+        'labels_français': {mediator: "Disséminateurs", name: "Nom", district: "Commune", gender: "Genre", phone_number: "Numéro de téléphone", assigned_villages: "Villages assignés"},
+        'labels_English': {mediator: "Mediator",name: "Name", district: "District", gender: "Gender", phone_number: "Phone Number", assigned_villages: "Assigned Villages"},
+        'list_elements_हिन्दी': [{'header':'आईडी', 'element':'online_id'},{'header':'नाम','element':'name'},{'header':'नियुक्त किए गये गाँव','subelement':'village_name','element':'assigned_villages'}],
+        'list_elements_français': [{'header':'Identité', 'element':'online_id'},{'header':'Nom','element':'name'},{'header':'Villages assignés','subelement':'village_name','element':'assigned_villages'}],
+        'list_elements_English': [{'header':'ID', 'element':'online_id'},{'element':'name'},{'subelement':'village_name','element':'assigned_villages'}],
         'add_template_name': 'mediator_add_edit_template',
         'edit_template_name': 'mediator_add_edit_template',
         'rest_api_url': '/coco/api/v2/mediator/',
-        'list_elements': [{'header':'ID', 'element':'online_id'},{'element':'name'},{'subelement':'village_name','element':'assigned_villages'}],
         'entity_name': 'mediator',
         'unique_together_fields': ['name', 'gender', 'district.id'],
         'sort_field': 'name',
@@ -211,10 +224,24 @@ function() {
 
     var video_configs = {
         'page_header': 'Video',
+        'config_English': 'Videos',
+        'config_हिन्दी': 'वीडियो',
+        'config_français': 'Vidéos',
+        'labels_हिन्दी': {video:"वीडियो", title: "शीर्षक", video_type: "वीडियो का प्रकार", production_date: "उत्पादन की तिथि", language: "भाषा", benefit: "लाभ",
+                            village: "गाँव", production_team: "वीडियो उत्पादन टीम", category: "श्रेणी", subcategory: "उप श्रेणी", videopractice:"विडियो में दिखाई गई क्रिया",
+                            approval_date: "स्वीकृति तिथि", youtubeid: "यूट्यूब आईडी", add_row:"खाली पंक्तियाँ जोड़े", sr_no:"क्रम संख्या", non_n:"अति आवश्यक बातें", physically_verifiable:"जाँच करने योग्य"},
+        'labels_français': {video:"Vidéos", title: "Titre", video_type: "Type de vidéo", production_date: "Date de production", language: "Langue", benefit: "Bénéfice",
+                            village: "Villages", production_team: "Equipe de production", category: "Catégorie", subcategory: "Sous-catégorie", videopractice:"La pratique vidéo",
+                            approval_date: "Date de validation", youtubeid: "Identité Youtube", add_row:"ajouter des lignes", sr_no:"Serie de Numéro", non_n:"Non négociables", physically_verifiable:"Physiquement vérifiable"},
+        'labels_English': {video:"Video", title: "Title", video_type: "Video Type", production_date: "Production Date", language: "Language", benefit: "Benefit", village: "Village",
+                           production_team: "Production Team", category: "Category", subcategory: "Sub Category", videopractice:"Video Practice", approval_date: "Approval Date", 
+                           youtubeid: "Youtube Id", add_row:"Add Empty Rows", sr_no:"Sr. No.", non_n:"Non Negotiables", physically_verifiable:"Physically Verifiable"},
+        'list_elements_हिन्दी': [{'header':'आईडी', 'element':'online_id'},{'header':'शीर्षक', 'element':'title'},{'header':'गाँव','element':'village.village_name'},{'header':'उत्पादन की तिथि','element':'production_date'}],
+        'list_elements_français': [{'header':'Identité', 'element':'online_id'},{'header':'Titre', 'element':'title'},{'header':'Villages','element':'village.village_name'},{'header':'Date de production','element':'production_date'}],
+        'list_elements_English': [{'header':'ID','element':'online_id'},{'element':'title'},{'header':'Village','element':'village.village_name'},{'header':'Production Date','element':'production_date'}],
         'add_template_name': 'video_add_edit_template',
         'edit_template_name': 'video_add_edit_template',
         'rest_api_url': '/coco/api/v2/video/',
-        'list_elements': [{'header':'ID','element':'online_id'},{'element':'title'},{'header':'Village','element':'village.village_name'},{'header':'Production Date','element':'production_date'}],
         'entity_name': 'video',
         'unique_together_fields': ['title', 'production_date', 'village.id'],
         'sort_field': 'title',
@@ -310,8 +337,11 @@ function() {
                 },
                 village: "required",
                 production_team: "required",
+                category: "required",
+                subcategory: "required",
+                videopractice: "required",
                 approval_date: {
-					dateOrder: {production_date : "production_date"}
+                    dateOrder: {production_date : "production_date"}
                     // validateDate: true
                 },
                 youtubeid: {
@@ -338,9 +368,12 @@ function() {
                 },
                 village: "Village is required",
                 production_team: "Production team is required",
+                category: "Category is required",
+                subcategory: "Subcategory is required",
+                videopractice: "Videopractice is required",
                 approval_date: {
                     validateDate: "Enter Approval Date in the form of YYYY-MM-DD",
-					dateOrder: "Approval date should be later than production date"
+                    dateOrder: "Approval date should be later than production date"
                 },
                 youtubeid: {
                     maxlength: "YoutubeID should contain at most 20 characters"
@@ -370,6 +403,9 @@ function() {
     };
 
     var language_configs = {
+        'config_English': 'Languages',
+        'config_हिन्दी': 'भाषा',
+        'config_français': 'Langue',
         'rest_api_url': '/coco/api/v2/language/',
         'entity_name': 'language',
         'sort_field': 'language_name',
@@ -380,6 +416,9 @@ function() {
     };
 
     var category_configs = {
+        'config_English': 'Categories',
+        'config_हिन्दी': 'श्रेणी',
+        'config_français': 'Catégorie',
         'rest_api_url': '/coco/api/v2/category/',
         'entity_name': 'category',
         'sort_field': 'category_name',
@@ -390,6 +429,9 @@ function() {
     };
 
     var subcategory_configs = {
+        'config_English': 'Sub Categories',
+        'config_हिन्दी': 'उप श्रेणी',
+        'config_français': 'Sous-catégorie',
         'rest_api_url': '/coco/api/v2/subcategory/',
         'entity_name': 'subcategory',
         'sort_field': 'subcategory_name',
@@ -408,6 +450,9 @@ function() {
     };
 
     var videopractice_configs = {
+        'config_English': 'Video Practices',
+        'config_हिन्दी': 'विडियो में दिखाई गई क्रिया',
+        'config_français': 'La pratique vidéo',
         'rest_api_url': '/coco/api/v2/videopractice/',
         'entity_name': 'videopractice',
         'sort_field': 'videopractice_name',
@@ -426,6 +471,9 @@ function() {
     };
 
     var nonnegotiable_configs = {
+        'config_English': 'Non Negotiables',
+        'config_हिन्दी': 'अति आवश्यक बातें',
+        'config_français': 'Non négociables',
         'rest_api_url': '/coco/api/v2/nonnegotiable/',
         'entity_name': 'nonnegotiable',
         'sort_field': 'non_negotiable',
@@ -444,6 +492,9 @@ function() {
     };
 
     var district_configs = {
+        'config_English': 'Districts',
+        'config_हिन्दी': 'जिला',
+        'config_français': 'Commune',
         'rest_api_url': '/coco/api/v2/district/',
         'entity_name': 'district',
         'sort_field': 'district_name',
@@ -455,11 +506,22 @@ function() {
 
     var group_configs = {
         'page_header': 'Group',
+        'config_English': 'Groups',
+        'config_हिन्दी': 'ग्राम संगठन',
+        'config_français': 'Groupes',
+        'labels_हिन्दी': {group: "ग्राम संगठन", name: "नाम", village: "गाँव", person_name: "सदस्य का नाम", father_name: "पिता/पति का नाम",
+                           age: "आयु", gender: "लिंग", phone_no: "फ़ोन नंबर", add_row:"खाली पंक्तियाँ जोड़े"},
+        'labels_français': {group: "Groupes", name: "Nom", village: "Village", person_name: "Nom de la personne", father_name: "Nom du père",
+                           age: "Age", gender: "Genre", phone_no: "Numéro de téléphone", add_row:"ajouter des lignes vides"},
+        'labels_English': {group:"Group", name: "Name", village: "village", person_name: "Person Name", father_name: "Father Name", 
+                           age: "Age", gender: "Gender", phone_no: "Phone No", add_row:"Add Empty Rows"},
+        'list_elements_हिन्दी': [{'header':'आईडी','element':'online_id'},{'header':'नाम','element':'group_name'},{'header':'गाँव','element':'village.village_name'}],
+        'list_elements_français': [{'header':'Identité','element':'online_id'},{'header':'Nom','element':'group_name'},{'header':'Village','element':'village.village_name'}],
+        'list_elements_English': [{'header':'ID','element':'online_id'},{'header':'Name','element':'group_name'},{'header':'Village','element':'village.village_name'}],
         'add_template_name': 'group_add_edit_template',
         'edit_template_name': 'group_add_edit_template',
         'rest_api_url': '/coco/api/v2/group/',
         'entity_name': 'group',
-        'list_elements': [{'header':'ID','element':'online_id'},{'header':'Name','element':'group_name'},{'header':'Village','element':'village.village_name'}],
         'inc_table_name': 'persongroup',
         'unique_together_fields': ['group_name', 'village.id'],
         'sort_field': 'group_name',
@@ -541,15 +603,27 @@ function() {
                 element.parent().append(label);
             }
         }
-
-
     };
 
     var screening_configs = {
         'page_header': 'Screening',
+        'config_English': 'Screenings',
+        'config_हिन्दी': 'दिखाए गए वीडियो',
+        'config_français': 'Projections',
+        'labels_हिन्दी': {screening:"दिखाए गए वीडियो", date: "विडियो दिखने की तिथि", start_time: "आरंभ करने की तिथि", village: "गाँव", mediator: "मध्यस्थ",
+            videos_screened: "वीडियो जो दिखाया गया", groups_attended: "ग्राम संगठन जिन्होने भाग लिया", person: "सदस्य", problem_faced: "वीडियो को समझने में आने वाली समस्याएं",
+            del: "हटाओ", sr_no: "क्रम संख्या", category: "श्रेणी", person_attended: "सदस्य जिन्होने भाग लिया"},
+        'labels_français': {screening:"Projections", date: "Date de projection", start_time: "Heure de début", village: "Village", mediator: "Disséminateur",
+            videos_screened: "Vidéo projectée", groups_attended: "Groupe concerné", person: "Personne", problem_faced: "Problèmes rencontrés dans la compréhension de la vidéo",
+            del: "effacer", sr_no: "Serie de Numéro", category: "Catégorie", person_attended: "Personne"},
+        'labels_English': {screening:"Screening",date: "Date", start_time: "Start Time", village: "Village", mediator: "mediator",
+            videos_screened: "Videos Screened", groups_attended: "Groups Attended", person: "Person", problem_faced: "Problems faced in understanding the video",
+            del: "Delete", sr_no: "Sr. No.", category: "Category", person_attended: "Person"},
+        'list_elements_हिन्दी': [{'header':'आईडी','element':'online_id'},{'header':'विडियो दिखने की तिथि','element':'date'},{'header':'मध्यस्थ','element':'animator.name'},{'header':'गाँव','element':'village.village_name'},{'header':'ग्राम संगठन जिन्होने भाग लिया','subelement':'group_name','element':'farmer_groups_targeted'},{'header':'वीडियो जो दिखाया गया','subelement':'title','element':'videoes_screened'}],
+        'list_elements_français': [{'header':'Identité','element':'online_id'},{'header':'Date de projection','element':'date'},{'header':'Disséminateur','element':'animator.name'},{'header':'Village','element':'village.village_name'},{'header':'Groupe concerné','subelement':'group_name','element':'farmer_groups_targeted'},{'header':'Vidéo projectée','subelement':'title','element':'videoes_screened'}],
+        'list_elements_English': [{'header':'ID','element':'online_id'},{'header':'Screening Date','element':'date'},{'header':'Mediator','element':'animator.name'},{'header':'Village','element':'village.village_name'},{'header':'Groups Attended','subelement':'group_name','element':'farmer_groups_targeted'},{'header':'Videos Screened','subelement':'title','element':'videoes_screened'}],
         'add_template_name': 'screening_add_edit_template',
         'edit_template_name': 'screening_add_edit_template',
-        'list_elements': [{'header':'ID','element':'online_id'},{'header':'Screening Date','element':'date'},{'header':'Mediator','element':'animator.name'},{'header':'Village','element':'village.village_name'},{'header':'Groups Attended','subelement':'group_name','element':'farmer_groups_targeted'},{'header':'Videos Screened','subelement':'title','element':'videoes_screened'}],
         'rest_api_url': '/coco/api/v2/screening/',
         'entity_name': 'screening',
         download_chunk_size: 1000,
@@ -743,7 +817,15 @@ function() {
         'rest_api_url': '/coco/api/v2/influencer/',
         'entity_name': 'influencer',
         'inc_table_name': 'influencers',
-        'list_elements': [{'header':'Screening Date','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Video','subelement':'title','element':'video'}, {'header':'No. of Male','element':'number_of_male'}, {'header':'No. of Female','element':'number_of_female'}],
+        'config_English': 'Screening for Influencer',
+        'config_हिन्दी': "प्रभावक के लिए स्क्रीनिंग",
+        'config_français': 'Le dépistage de la Influencer',
+        'labels_हिन्दी': {influencer:"प्रभावक", date: "तारीख", village: "गाँव", mediator: "मध्यस्थ", videos_screened: "वीडियो जो दिखाया गया", groups_attended: "ग्राम संगठन जिन्होने भाग लिया", number_of_male: "पुरुष प्रतिभागियों की संख्या", number_of_female: "महिला प्रतिभागियों की संख्या"},
+        'labels_français': {influencer:"Influencer", date: "Date", village: "Village", mediator: "Disséminateur", videos_screened: "Vidéo projectée", groups_attended: "Groupe concerné", number_of_male: "nombre de participants de sexe masculin", number_of_female: "nombre de participantes"},
+        'labels_English': {influencer:"Influencer", date: "Date", village: "Village", mediator: "mediator", videos_screened: "Videos Screened", groups_attended: "Groups Attended", number_of_male: "No. of Male Participants", number_of_female: "No. of Female Participants"},
+        'list_elements_हिन्दी': [{'header':'विडियो दिखने की तिथि','element':'date'}, {'header':'गाँव','element':'village.village_name'}, {'header':'वीडियो','subelement':'title','element':'video'}, {'header':'पुरुषो की संख्या','element':'number_of_male'}, {'header':'महिलाओ की संख्या','element':'number_of_female'}],
+        'list_elements_français': [{'header':'Date de projection','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Vidéo','subelement':'title','element':'video'}, {'header':'nombre d hommes','element':'number_of_male'}, {'header':'nombre de femmes','element':'number_of_female'}],
+        'list_elements_English': [{'header':'Screening Date','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Video','subelement':'title','element':'video'}, {'header':'No. of Male','element':'number_of_male'}, {'header':'No. of Female','element':'number_of_female'}],
         'unique_together_fields': ['date', 'village.id', 'mediator.id'],
         'foreign_entities': {
             'village': {
@@ -826,12 +908,20 @@ function() {
 
     var adoption_configs = {
         'page_header': 'Adoption',
+        'config_English': 'Adoptions',
+        'config_हिन्दी': 'अपनाए हुए विधि',
+        'config_français': 'Adoptions',
+        'labels_हिन्दी': {adoption:"अपनाए हुए विधि", village: "गाँव", mediator: "मध्यस्थ", video: "वीडियो", groups_attended: "ग्राम संगठन जिन्होने भाग लिया ", person: "सदस्य", del: "हटाओ", sr_no: "क्रम संख्या", date_of_adoption: "अपनाने की तारीख", date_of_verification: "अपनाने के जाँच की तारीख", recall_nonnegotiable: "क्या सदस्य ने अति आवश्यक बातो को याद किया था", member_adopt: "क्या सदस्य ने क्रिया अपनाई", member_promote: "क्या सदस्य ने क्रिया को समुदाय में बढ़ावा देना रिपोर्ट किया था"},
+        'labels_français': {adoption:"Adoptions", village: "Village", mediator: "Disséminateur", video: "Vidéo", groups_attended: "Groupes concernés", person: "Personne", del: "effacer", sr_no: "Serie de Numéro", date_of_adoption: "Date d'adoption", date_of_verification: "Date de vérification", recall_nonnegotiable: "Le député at rappeler les points non négociables", member_adopt: "membre at-il adopté la pratique", member_promote: "Est-ce que le rapport des membres de promouvoir la pratique dans la communauté"},
+        'labels_English': {adoption:"Adoption", village: "Village", mediator: "Mediator", video: "Video", groups_attended: "Groups Attended", person: "Person", del: "Delete", sr_no: "Sr. No.", video: "Video", date_of_adoption: "Date of Adoption", date_of_verification: "Date of Verification", recall_nonnegotiable: "Did the member recall non-negotiable points", member_adopt: "Did member adopt the practice", member_promote: "Did the member report promoting the practice in the community"},
+        'list_elements_हिन्दी': [{'header':'आईडी','element':'online_id'},{'header':'अपनाने की तारीख','element':'date_of_verification'},{'header':'सदस्य कि आईडी','element':'person.id'},{'header':'सदस्य','element':'person.person_name'},{'header':'ग्राम संगठन का नाम','element':'group.group_name'},{'header':'गाँव','element':'village.village_name'},{'header':'वीडियो','element':'video.title'}],
+        'list_elements_français': [{'header':'Identité','element':'online_id'},{'header':"Date d'adoption",'element':'date_of_verification'},{'header':'Personne Identité','element':'person.id'},{'header':'Personne','element':'person.person_name'},{'header':'Groupe/groupement','element':'group.group_name'},{'header':'Village','element':'village.village_name'},{'header':'Vidéo','element':'video.title'}],
+        'list_elements_English': [{'header':'ID','element':'online_id'},{'header':'Date','element':'date_of_verification'},{'header':'Person ID','element':'person.id'},{'header':'Person','element':'person.person_name'},{'header':'Group','element':'group.group_name'},{'header':'Village','element':'village.village_name'},{'header':'Video','element':'video.title'}],
         'add_template_name': 'adoption_add_template',
         'edit_template_name': 'adoption_edit_template',
         'rest_api_url': '/coco/api/v2/adoption/',
         'entity_name': 'adoption',
         'inc_table_name': 'personadoptpractice',
-        'list_elements': [{'header':'ID','element':'online_id'},{'header':'Date','element':'date_of_verification'},{'header':'Person ID','element':'person.id'},{'header':'Person','element':'person.person_name'},{'header':'Group','element':'group.group_name'},{'header':'Village','element':'village.village_name'},{'header':'Video','element':'video.title'}],
         'unique_together_fields': ['person.id', 'video.id', 'date_of_verification'],
         form_field_validation: {
             ignore: [],
@@ -988,9 +1078,17 @@ function() {
 
     var person_configs = {
         'page_header': 'Person',
+        'config_English': 'Persons',
+        'config_हिन्दी': "सदस्य",
+        'config_français': 'Personnes',
+        'labels_हिन्दी': {person:"सदस्य", name:"नाम", father_name:"पिता/पति का नाम", village: "गाँव", gender:"लिंग", age:"आयु", phone_no:"फ़ोन नंबर",group:"ग्राम संगठन का नाम"},
+        'labels_français': {person:"Personnes", name:"Nom de la personne", father_name:"Nom du père", village: "Nom du village", gender:"Genre", age:"Age", phone_no:"Numéro de téléphone",group:"Groupe"},
+        'labels_English': {person: "Person", name:"Name", father_name:"Father Name", village: "Village", gender:"Gender", age:"Age", phone_no:"Phone Number",group:"Group"},
+        'list_elements_हिन्दी': [{'header':'आईडी','element':'online_id'},{'header':'सदस्य का नाम','element':'person_name'},{'header':'पिता/पति का नाम','element':'father_name'},{'header':'गाँव','element':'village.village_name'},{'header':'ग्राम संगठन का नाम','element':'group.group_name'}],
+        'list_elements_français': [{'header':'Identité','element':'online_id'},{'header':'Nom de la personne','element':'person_name'},{'header':'Nom du père','element':'father_name'},{'header':'Nom du village','element':'village.village_name'},{'header':'Groupe','element':'group.group_name'}],
+        'list_elements_English': [{'header':'ID','element':'online_id'},{'element':'person_name'},{'element':'father_name'},{'element':'village.village_name'},{'element':'group.group_name'}],
         'add_template_name': 'person_add_edit_template',
         'edit_template_name': 'person_add_edit_template',
-        'list_elements': [{'header':'ID','element':'online_id'},{'element':'person_name'},{'element':'father_name'},{'element':'village.village_name'},{'element':'group.group_name'}],
         'rest_api_url': '/coco/api/v2/person/',
         'entity_name': 'person',
         'foreign_entities': {
@@ -1004,7 +1102,7 @@ function() {
                 'group': {
                     'placeholder': 'id_group',
                     'name_field': 'group_name',
-					'dependency': [{
+                    'dependency': [{
                         'source_form_element': 'village',
                         'dep_attr': 'village'
                     }]
@@ -1044,34 +1142,34 @@ function() {
                 }
             },
             messages: {
-				person_name: {
-					required: 'Person name is required',
-					minlength: 'Person name  should contain at least 2 characters',
-					maxlength: 'Person Name should contain at most 100 characters',
-					allowedChar: 'Person name should contain only english and local language characters'
-				},
-				father_name: {
-					required: "Father's name is required",
-					minlength: "Father's name should contain at least 2 characters",
-					maxlength: "Father's name should contain at most 100 characters",
-					allowedChar: "Father's name should contain only english and local language characters"
-				},
-				age: {
-					digits: "Age should contain only digits",
-					min:"Age should not be less than 1 year",
-					max:"Age should not be more than 100 years"
-				},
-				gender:{
-					required: "Gender is required"
-				},
-				phone_number_person: {
-					digits: 'Phone number should contain digits only',
-					maxlength: "Phone number should not contain more than 10 digits"
-				},
-				village: {
-					required: "Village is required"
-				}
-			},
+                person_name: {
+                    required: 'Person name is required',
+                    minlength: 'Person name  should contain at least 2 characters',
+                    maxlength: 'Person Name should contain at most 100 characters',
+                    allowedChar: 'Person name should contain only english and local language characters'
+                },
+                father_name: {
+                    required: "Father's name is required",
+                    minlength: "Father's name should contain at least 2 characters",
+                    maxlength: "Father's name should contain at most 100 characters",
+                    allowedChar: "Father's name should contain only english and local language characters"
+                },
+                age: {
+                    digits: "Age should contain only digits",
+                    min:"Age should not be less than 1 year",
+                    max:"Age should not be more than 100 years"
+                },
+                gender:{
+                    required: "Gender is required"
+                },
+                phone_number_person: {
+                    digits: 'Phone number should contain digits only',
+                    maxlength: "Phone number should not contain more than 10 digits"
+                },
+                village: {
+                    required: "Village is required"
+                }
+            },
 
             highlight: function(element, errorClass, validClass) {
                 $(element)
@@ -1098,6 +1196,41 @@ function() {
 
     var misc = {
         download_chunk_size: 2000,
+        languages: ['हिन्दी', 'English', 'français'],
+        meta_default: 'English',
+        meta_English: {stop: "Stop",close:"close", sync: "Sync", save: "Save and Add Another", help:"Help", logout:"Logout", download:"Downloading...",upload:"Uploading...", inprogress:"In Progress", done:"Done", edit:"Edit", 
+                       delete_download:"Delete and Download Database", save_again:"Save Again", discard:"Discard", upload_total:"Data items to be uploaded", upload_done:"Data Uploaded", upload_pending:"Data pending to be uploaded",
+                       error:"Error!!", upload_error:"Internet connectivity lost. Please try after sometime!", copy_clipboard:"Copy to clipboard", excel_download:"Download in excel", search: 'Search: ', enteries:"Enteries: ",total_enteries:"Total Enteries: ",
+                       next:"Next", previous:"Previous", list_page_help:"For multiple column sorting, press and hold the shift key while sorting each column.",
+                       line_1:"Welcome to Health and Nutrition COCO", line_2:"COCO helps you to seamlessly enter data in conditions of intermittent connectivity.",
+                       line_3:"Add data", line_4:"To add some data, click on (+) sign next to the type of data that you want to add.",
+                       line_5:"View Data", line_6:"To view, sort and search through your data, click on the data link in the sidebar.",
+                       line_7:"Sync data", line_8:"To sync data with the server, click on the sync button. While syncing, if some data is rejected by the server, you will get the opportunity to correct the data, or in case of duplicate entries, to discard it. The number in the button shows how many entries are yet to be uploaded. Clicking on the sync button will also download the database if it is not completely downloaded.",
+                       line_9:"We value your feedback", line_10:"Do share your feedback by mailing us at <a href='mailto:system@digitalgreen.org'>system@digitalgreen.org</a>",
+                       line_11:"Database last deleted and downloaded at", line_12:"Database last synced at",
+                       line_13:"Entries to upload"},
+        meta_हिन्दी: {stop: "रोकें",close:"बंद करें", sync:"सिंक करें", save: "एक और जोड़े", help:"हेल्प", logout:"लोग आउट", download:"डाउनलोड हो रहा है...", upload:"अपलोड हो रहा है...",inprogress:"कार्य प्रगति में है", done:"कार्य समाप्त हो गया है", edit:"बदलें",
+                       delete_download:"पुराना डेटा हटाएँ और नया जोड़ें ", save_again:"फिर से जोड़े", discard:"हटाये", upload_total:"अपलोड के लिए कुल डेटा", upload_done:"डेटा अपलोड हो गया है", upload_pending:"डेटा अपलोड होना बाकी है",
+                       error: "त्रुटि!!", upload_error:"अभी इंटरनेट की सुविधा नही है। कृपया कुछ देर बाद प्रयास करें!",copy_clipboard:"क्लिपबोर्ड पर कॉपी करें", excel_download:"एक्सेल में डाउनलोड करें", search: "खोजें: ", enteries:"डेटा: ", total_enteries:"कुल डेटा: ",
+                       next:"अगला", previous:"पिछला", list_page_help:"एक से जादा श्रेणी के डेटा को क्रम मे लाने के लिए एक से अधिक श्रेणी चुनते समय शिफ्ट बटन दबाए रख़े",
+                       line_1:"आपका स्वास्थ्य और पोषण COCO मे स्वागत है", line_2:"COCO आपको अनिरंतर इंटरनेट में भी डेटा जोड़ने में मदद करता है",
+                       line_3:"डेटा जोड़े", line_4:"जो डेटा जोड़ना है उसके बगल में डेटा जोड़ने के लिए (+) पर क्लिक करें",
+                       line_5:"डेटा देखें", line_6:"डेटा देखने, खोजने और क्रम में लाने के लिए, बाँई तरफ उनके नाम पे क्लिक करें",
+                       line_7:"डेटा सिंक करें", line_8:"डेटा सिंक करने के लिए सिंक बटन पर क्लिक करें। सिंक करते समय अगर डेटा किसी कारण अपलोड नहीं हो रहा है तोह आपको डेटा सुधरने या अगर दोहरा डेटा है तो डेटा हटाने का मौका मिलेगा। सिंक बटन पर जो संख्या है वह ये बताता है की कितना डेटा अभी अपलोड करना बाकी है। सिंक बटन पे क्लिक करने पर अगर डेटा डाउनलोड नहीं हुआ है तोह डेटा पूरा डाउनलोड हो जाएगा।",
+                       line_9:"हम आपके सुझाव का मूल्य समझते हैं", line_10:"अपने सुझाव हमें <a href='mailto:system@digitalgreen.org'>system@digitalgreen.org</a> पर भेजें",
+                       line_11:"पिछली बार डेटा हटाया और जोड़ा गया था", line_12:"पिछली बार डेटा सिंक हुआ था",
+                       line_13:"अपलोड करने वाले प्रविष्टियों"},
+        meta_français: {stop: "Arrêtez",close:"Fermer", sync:"Sync", save: "Enregistrer", help:"Aidez-moi", logout:"Se déconnecter", download:"Téléchargement en cours...", upload:"L'ajout...",inprogress:"En cours", done:"Terminé", edit:"modifier",
+                       delete_download:"Supprimer et télécharger la base de données", save_again:"Enregistrer à nouveau", discard:"Jeter", upload_total:"Les éléments de données à être téléchargées", upload_done:"Les données téléchargées", upload_pending:"Données en attente d' être téléchargées",
+                       error: "Erreur!!", upload_error:"Connectivité Internet perdue. Essayez après un certain temps!",copy_clipboard:"Copier dans le presse-papier", excel_download:"Télécharger Excel", search: "Chercher: ", enteries:"Entrées: ", total_enteries:"Entrées totales: ",
+                       next:"Prochain", previous:"Précédent", list_page_help:"Pour le tri de plusieurs colonnes, appuyez et maintenez la touche Maj enfoncée tout en triant chaque colonne",
+                       line_1:"Bienvenu dans Santé et nutrition COCO", line_2:"COCO vous aide à saisir de façon transparente des données dans des conditions de connectivité intermittente",
+                       line_3:"Ajouter des données", line_4:"Pour ajouter des données, cliquez sur (+) cochez à côté du type de données que vous souhaitez ajouter",
+                       line_5:"Voir les données", line_6:"Pour afficher, trier et rechercher dans vos données, cliquez sur le lien de données dans la barre latérale",
+                       line_7:"Synchroniser les données", line_8:"Pour synchroniser des données avec le serveur, cliquez sur le bouton de synchronisation. Pendant la synchronisation, si certaines données sont rejetées par le serveur, vous aurez la possibilité de les corriger , ou en cas d'entrées en double. Le nombre dans le bouton indique le nombre d'entrées qui ne sont pas encore téléchargées. En cliquant sur le bouton de synchronisation, il sera également téléchargé la base de données si elle n'est pas complètement téléchargée.",
+                       line_9:"Nous apprécions vos commentaires", line_10:"Envoyez nous vos commentaires par courriel à <a href='mailto:system@digitalgreen.org'>system@digitalgreen.org</a>",
+                       line_11:"Base de données dernièrement supprimée et téléchargée ici", line_12:"Base de données dernièrement synchronisée",
+                       line_13:"Entrées pour téléchargement"},
         background_download_interval: 5 * 60 * 1000,
         inc_download_url: "/get_log/",
         afterFullDownload: function(start_time, download_status){
