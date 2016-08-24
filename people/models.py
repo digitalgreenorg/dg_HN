@@ -10,6 +10,7 @@ from django.core.validators import MaxValueValidator
 
 class Animator(CocoModel):
     id = models.AutoField(primary_key = True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone_no = models.CharField(max_length=100, blank=True)
@@ -42,6 +43,7 @@ class AnimatorAssignedVillage(CocoModel):
 
 class PersonGroup(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     group_name = models.CharField(max_length=100)
     village = models.ForeignKey(Village)
     partner = models.ForeignKey(Partner)
@@ -57,6 +59,7 @@ pre_delete.connect(delete_log, sender=PersonGroup)
 
 class Person(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     person_name = models.CharField(max_length=100)
     father_name = models.CharField(max_length=100, blank=True)
     age = models.IntegerField(null=True, blank=True, validators=[MaxValueValidator(999)])

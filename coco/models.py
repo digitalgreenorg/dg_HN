@@ -28,6 +28,7 @@ class ServerLog(models.Model):
 
 class CocoUser(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     user = models.OneToOneField(User, related_name="coco_user")
     partner = models.ForeignKey(Partner)
     villages = models.ManyToManyField(Village)

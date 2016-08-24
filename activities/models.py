@@ -15,7 +15,9 @@ from django.core.validators import MaxValueValidator
 
 class Screening(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     date = models.DateField()
+    start_time = models.TimeField(null=True)
     location = models.CharField(max_length=200, blank=True)
     village = models.ForeignKey(Village)
     animator = models.ForeignKey(Animator)
@@ -29,7 +31,7 @@ class Screening(CocoModel):
     problem_faced = models.TextField(blank=True)
 
     class Meta:
-        unique_together = ("date", "animator", "village")
+        unique_together = ("date", "animator", "start_time", "village")
 
     def __unicode__(self):
         return u'%s' % (self.village.village_name)
@@ -43,6 +45,7 @@ pre_delete.connect(delete_log, sender=Screening)
 
 class PersonMeetingAttendance(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     screening = models.ForeignKey(Screening)
     person = models.ForeignKey(Person)
     category = models.CharField(max_length=1, choices=ATTENDED_PERSON_CATEGORY)
@@ -52,6 +55,7 @@ class PersonMeetingAttendance(CocoModel):
 
 class PersonAdoptPractice(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     person = models.ForeignKey(Person)
     video = models.ForeignKey(Video)
     partner = models.ForeignKey(Partner)
@@ -59,6 +63,7 @@ class PersonAdoptPractice(CocoModel):
     non_negotiable_check = models.CharField(max_length=256, blank=True, null=True)
     verified_by = models.IntegerField(choices=VERIFIED_BY, null=True, blank=True, validators=[MaxValueValidator(9)])
     date_of_verification = models.DateField(null=True,blank=True)
+    #date_of_adoption = models.DateField(null=True,blank=True)
     promote_practice = models.BooleanField(default=False)
     n_one = models.BooleanField(db_index=True,default=False)
     n_two = models.BooleanField(db_index=True,default=False)

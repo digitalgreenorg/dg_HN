@@ -12,6 +12,7 @@ from django.core.validators import MaxValueValidator
 
 class PracticeSector(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -20,6 +21,7 @@ class PracticeSector(CocoModel):
 
 class PracticeSubSector(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -28,6 +30,7 @@ class PracticeSubSector(CocoModel):
 
 class PracticeTopic(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -36,6 +39,7 @@ class PracticeTopic(CocoModel):
 
 class PracticeSubtopic(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -44,6 +48,7 @@ class PracticeSubtopic(CocoModel):
 
 class PracticeSubject(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     name = models.CharField(max_length=500)
 
     def __unicode__(self):
@@ -52,6 +57,7 @@ class PracticeSubject(CocoModel):
 
 class Practice(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     practice_name = models.CharField(null=True, blank=True, max_length=200)
     practice_sector = models.ForeignKey(PracticeSector, default=1) 
     practice_subsector = models.ForeignKey(PracticeSubSector, null=True, blank=True)
@@ -74,6 +80,7 @@ class Practice(CocoModel):
 
 class Language(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     language_name = models.CharField(max_length=100, unique='True')
 
     def get_village(self):
@@ -89,6 +96,7 @@ pre_delete.connect(delete_log, sender=Language)
 
 class Category(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     category_name = models.CharField(max_length=100, unique='True')
 
     def get_village(self):
@@ -105,6 +113,7 @@ class Category(CocoModel):
 
 class SubCategory(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     category = models.ForeignKey(Category)
     subcategory_name = models.CharField(max_length = 100)
 
@@ -122,6 +131,7 @@ class SubCategory(CocoModel):
 
 class VideoPractice(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     subcategory = models.ForeignKey(SubCategory)
     videopractice_name = models.CharField(max_length = 100)
 
@@ -137,6 +147,7 @@ class VideoPractice(CocoModel):
 
 class Video(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     title = models.CharField(max_length=200)
     video_type = models.IntegerField(choices=VIDEO_TYPE, validators=[MaxValueValidator(9)])
     duration = models.TimeField(null=True, blank=True)
@@ -171,6 +182,7 @@ pre_delete.connect(delete_log, sender=Video)
 
 class NonNegotiable(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     video = models.ForeignKey(Video)
     non_negotiable = models.CharField(max_length=500)
     physically_verifiable = models.BooleanField(db_index=True, default=False)
