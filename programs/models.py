@@ -4,6 +4,7 @@ from coco.base_models import CocoModel
 
 class Partner(CocoModel):
     id = models.AutoField(primary_key=True)
+    original_coco_id = models.BigIntegerField(editable=False, null=True)
     partner_name = models.CharField(max_length=100)
     date_of_association = models.DateField(null=True, blank=True)
     
