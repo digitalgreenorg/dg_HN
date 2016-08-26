@@ -616,7 +616,7 @@ function() {
         'labels_français': {screening:"Projections", date: "Date de projection", start_time: "Heure de début", village: "Village", mediator: "Disséminateur",
             videos_screened: "Vidéo projectée", groups_attended: "Groupe concerné", person: "Personne", problem_faced: "Problèmes rencontrés dans la compréhension de la vidéo",
             del: "effacer", sr_no: "Serie de Numéro", category: "Catégorie", person_attended: "Personne"},
-        'labels_English': {screening:"Screening",date: "Date", start_time: "Start Time", village: "Village", mediator: "mediator",
+        'labels_English': {screening:"Screening",date: "Date", start_time: "Start Time", village: "Village", mediator: "Mediator",
             videos_screened: "Videos Screened", groups_attended: "Groups Attended", person: "Person", problem_faced: "Problems faced in understanding the video",
             del: "Delete", sr_no: "Sr. No.", category: "Category", person_attended: "Person"},
         'list_elements_हिन्दी': [{'header':'आईडी','element':'online_id'},{'header':'विडियो दिखने की तिथि','element':'date'},{'header':'मध्यस्थ','element':'animator.name'},{'header':'गाँव','element':'village.village_name'},{'header':'ग्राम संगठन जिन्होने भाग लिया','subelement':'group_name','element':'farmer_groups_targeted'},{'header':'वीडियो जो दिखाया गया','subelement':'title','element':'videoes_screened'}],
@@ -811,18 +811,18 @@ function() {
     };
 
     var influencer_configs = {
-        'page_header': 'Screening for Influencer',
+        'page_header': 'Screening for Influencers',
         'add_template_name': 'influencer_add_edit_template',
         'edit_template_name': 'influencer_add_edit_template',
         'rest_api_url': '/coco/api/v2/influencer/',
         'entity_name': 'influencer',
         'inc_table_name': 'influencers',
-        'config_English': 'Screening for Influencer',
+        'config_English': 'Screening for Influencers',
         'config_हिन्दी': "प्रभावक के लिए स्क्रीनिंग",
-        'config_français': 'Le dépistage de la Influencer',
-        'labels_हिन्दी': {influencer:"प्रभावक", date: "तारीख", village: "गाँव", mediator: "मध्यस्थ", videos_screened: "वीडियो जो दिखाया गया", groups_attended: "ग्राम संगठन जिन्होने भाग लिया", number_of_male: "पुरुष प्रतिभागियों की संख्या", number_of_female: "महिला प्रतिभागियों की संख्या"},
-        'labels_français': {influencer:"Influencer", date: "Date", village: "Village", mediator: "Disséminateur", videos_screened: "Vidéo projectée", groups_attended: "Groupe concerné", number_of_male: "nombre de participants de sexe masculin", number_of_female: "nombre de participantes"},
-        'labels_English': {influencer:"Influencer", date: "Date", village: "Village", mediator: "mediator", videos_screened: "Videos Screened", groups_attended: "Groups Attended", number_of_male: "No. of Male Participants", number_of_female: "No. of Female Participants"},
+        'config_français': 'Le dépistage de la Influencers',
+        'labels_हिन्दी': {influencer:"प्रभावक", date: "तारीख", village: "गाँव", mediator: "मध्यस्थ", videos_screened: "वीडियो जो दिखाया गया", groups_attended: "लाभार्थियों के ग्राम संगठन", number_of_male: "पुरुष प्रतिभागियों की संख्या", number_of_female: "महिला प्रतिभागियों की संख्या"},
+        'labels_français': {influencer:"Influencer", date: "Date", village: "Village", mediator: "Disséminateur", videos_screened: "Vidéo projectée", groups_attended: "Groupes de bénéficiaires", number_of_male: "nombre de participants de sexe masculin", number_of_female: "nombre de participantes"},
+        'labels_English': {influencer:"Influencer", date: "Date", village: "Village", mediator: "Mediator", videos_screened: "Videos Screened", groups_attended: "Groups of beneficiaries", number_of_male: "No. of Male Participants", number_of_female: "No. of Female Participants"},
         'list_elements_हिन्दी': [{'header':'विडियो दिखने की तिथि','element':'date'}, {'header':'गाँव','element':'village.village_name'}, {'header':'वीडियो','subelement':'title','element':'video'}, {'header':'पुरुषो की संख्या','element':'number_of_male'}, {'header':'महिलाओ की संख्या','element':'number_of_female'}],
         'list_elements_français': [{'header':'Date de projection','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Vidéo','subelement':'title','element':'video'}, {'header':'nombre d hommes','element':'number_of_male'}, {'header':'nombre de femmes','element':'number_of_female'}],
         'list_elements_English': [{'header':'Screening Date','element':'date'}, {'header':'Village','element':'village.village_name'}, {'header':'Video','subelement':'title','element':'video'}, {'header':'No. of Male','element':'number_of_male'}, {'header':'No. of Female','element':'number_of_female'}],
@@ -929,7 +929,10 @@ function() {
                 person: {
                     required: true,
                     
-                },                
+                },   
+                animator: {
+                    required: true,
+                },                             
                 date_of_verification: {
                     required: true,
 					validateDate: true,
@@ -939,6 +942,9 @@ function() {
 				person: {
 					required: "person is required"
 				},
+                animator: {
+                    required: "Mediator is required"
+                },
 				date_of_verification: {
 					required: "Date of Verification is required"
 				}
@@ -985,6 +991,16 @@ function() {
                         'dependency': [{
                             'source_form_element': 'village',
                             'dep_attr': 'village'
+                        }]
+                    }
+                },
+                'mediator': {
+                    'animator': {
+                        'placeholder': 'id_animator',
+                        'name_field': 'name',
+                        'dependency': [{
+                            'source_form_element': 'village',
+                            'dep_attr': 'assigned_villages'
                         }]
                     }
                 },
@@ -1047,8 +1063,13 @@ function() {
                             'name_field': 'group_name'
                         }
                     },
+                    mediator: {
+                        animator: {
+                            'name_field': 'name'
+                        }
+                    },
                 },
-                borrow_fields: ['village', 'group','video']
+                borrow_fields: ['village', 'group','video','animator']
             }
         },
         edit: {
@@ -1069,6 +1090,16 @@ function() {
                             'dep_attr': 'id',
                             'src_attr': 'videos_seen',
                         }]
+                    }
+                },
+                'mediator': {
+                    'animator': {
+                        'placeholder': 'id_animator',
+                        'name_field': 'name',
+                        'dependency': [{
+                            'source_form_element': 'village',
+                            'dep_attr': 'assigned_villages'
+                        }] 
                     }
                 }
             }
@@ -1196,7 +1227,7 @@ function() {
 
     var misc = {
         download_chunk_size: 2000,
-        languages: ['हिन्दी', 'English', 'français'],
+        languages: ['हिन्दी', 'English', 'Français'],
         meta_default: 'English',
         meta_English: {stop: "Stop",close:"close", sync: "Sync", save: "Save and Add Another", help:"Help", logout:"Logout", download:"Downloading...",upload:"Uploading...", inprogress:"In Progress", done:"Done", edit:"Edit", 
                        delete_download:"Delete and Download Database", save_again:"Save Again", discard:"Discard", upload_total:"Data items to be uploaded", upload_done:"Data Uploaded", upload_pending:"Data pending to be uploaded",
