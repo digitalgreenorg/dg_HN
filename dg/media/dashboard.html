@@ -746,13 +746,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label notbold"><%= number_of_male %></label>
                     <div class="col-sm-4">
-                        <input name="number_of_male" type="text" class="input form-control"  placeholder="Number of male" />
+                        <input name="number_of_male" type="number" min="0" class="input form-control"  placeholder="Number of male" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label notbold"><%= number_of_female %></label>
                     <div class="col-sm-4">
-                        <input name="number_of_female" type="text" class="input form-control"  placeholder="Number of female" />
+                        <input name="number_of_female" type="number" min="0" class="input form-control"  placeholder="Number of female" />
                     </div>
                 </div>
                     <br>
@@ -777,7 +777,15 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2"><%= video %></label>
                     <div class="col-sm-4">
-                        <select name="video" id="id_video" class="chosen-select form-control"></select>
+                        <select name="video" id="id_video" class="chosen-select form-control" required></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2"><%= mediator %></label>
+                    <div class="col-sm-4"> 
+                        <select name="animator" id="id_animator" class="chosen-select form-control">
+                            <option value="">---------- </option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group"> 
@@ -832,6 +840,14 @@
                 <label class="control-label col-sm-2"><%= village %></label>
                 <div class="col-sm-4"> 
                 <select name="village" id="id_village" class="chosen-select form-control">
+                <option value="">---------- </option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group">
+                 <label class="control-label col-sm-2"><%= mediator %></label>
+                <div class="col-sm-4"> 
+                <select name="animator" id="id_animator" class="chosen-select form-control">
                 <option value="">---------- </option>
                 </select>
                 </div>

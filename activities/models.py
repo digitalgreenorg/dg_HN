@@ -59,6 +59,7 @@ class PersonAdoptPractice(CocoModel):
     person = models.ForeignKey(Person)
     video = models.ForeignKey(Video)
     partner = models.ForeignKey(Partner)
+    animator = models.ForeignKey(Animator, null=True, blank=True)
     verification_status = models.IntegerField(choices=ADOPTION_VERIFICATION, default=0, validators=[MaxValueValidator(9)])
     non_negotiable_check = models.CharField(max_length=256, blank=True, null=True)
     verified_by = models.IntegerField(choices=VERIFIED_BY, null=True, blank=True, validators=[MaxValueValidator(9)])
