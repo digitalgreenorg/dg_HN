@@ -1227,7 +1227,7 @@ function() {
 
     var misc = {
         download_chunk_size: 2000,
-        languages: ['हिन्दी', 'English', 'Français'],
+        languages: ['हिन्दी', 'English', 'français'],
         meta_default: 'English',
         meta_English: {stop: "Stop",close:"close", sync: "Sync", save: "Save and Add Another", help:"Help", logout:"Logout", download:"Downloading...",upload:"Uploading...", inprogress:"In Progress", done:"Done", edit:"Edit", 
                        delete_download:"Delete and Download Database", save_again:"Save Again", discard:"Discard", upload_total:"Data items to be uploaded", upload_done:"Data Uploaded", upload_pending:"Data pending to be uploaded",
