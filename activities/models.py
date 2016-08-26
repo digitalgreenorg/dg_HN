@@ -64,7 +64,7 @@ class PersonAdoptPractice(CocoModel):
     non_negotiable_check = models.CharField(max_length=256, blank=True, null=True)
     verified_by = models.IntegerField(choices=VERIFIED_BY, null=True, blank=True, validators=[MaxValueValidator(9)])
     date_of_verification = models.DateField(null=True,blank=True)
-    date_of_adoption = models.DateField(null=True,blank=True)
+    #date_of_adoption = models.DateField(null=True,blank=True)
     promote_practice = models.BooleanField(default=False)
     n_one = models.BooleanField(db_index=True,default=False)
     n_two = models.BooleanField(db_index=True,default=False)

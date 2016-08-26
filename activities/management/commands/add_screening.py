@@ -16,6 +16,8 @@ class Command(BaseCommand):
 			print screening['id']
 			hn_village_obj = Village.objects.filter(original_coco_id=screening['village_id'])
 			hn_village_obj = hn_village_obj[0] if len(hn_village_obj) > 0 else None
+			if screening['animator_id'] == 16625:
+				screening['animator_id'] = 19544
 			hn_animator_obj = Animator.objects.filter(original_coco_id=screening['animator_id'])
 			hn_animator_obj = hn_animator_obj[0] if len(hn_animator_obj) > 0 else None
 			hn_screening_obj = Screening(original_coco_id=screening['id'],village=hn_village_obj,animator=hn_animator_obj,partner_id=1,date=screening['date'],start_time=screening['start_time'],location=screening['location'],observation_status=screening['observation_status'],screening_grade=screening['screening_grade'],observer=screening['observer'])
