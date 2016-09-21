@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
-
+from django.views.generic import RedirectView
 import coco.urls
 import data_upload.urls
 
@@ -28,6 +28,7 @@ coco_admin.index_template = 'admin/index.html'
 
 
 urlpatterns = patterns('',
+    (r'^$', RedirectView.as_view(url='/coco/')),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
     #url(r'^login/$', 'social_website.views.login_view', {'template_name': 'social_website/login.html'}, name='signin'),
     #url(r'^signup/$', 'social_website.views.signup_view', {'template_name': 'social_website/signup.html'}, name='signup'),
