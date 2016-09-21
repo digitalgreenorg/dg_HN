@@ -819,7 +819,7 @@ function() {
         'inc_table_name': 'influencers',
         'config_English': 'Screening for Influencers',
         'config_हिन्दी': "प्रभावक के लिए स्क्रीनिंग",
-        'config_français': 'Autres membres influents de la communauté',
+        'config_français': 'Influents de la communauté',
         'labels_हिन्दी': {influencer:"प्रभावक", date: "तारीख", village: "गाँव", mediator: "मध्यस्थ", videos_screened: "वीडियो जो दिखाया गया", groups_attended: "लाभार्थियों के ग्राम संगठन", number_of_male: "पुरुष प्रतिभागियों की संख्या", number_of_female: "महिला प्रतिभागियों की संख्या"},
         'labels_français': {influencer:"Influencer", date: "Date", village: "Village", mediator: "Médiateur", videos_screened: "Vidéo projectée", groups_attended: "Groupes de bénéficiaires", number_of_male: "nombre de participants de sexe masculin", number_of_female: "nombre de participantes"},
         'labels_English': {influencer:"Influencer", date: "Date", village: "Village", mediator: "Mediator", videos_screened: "Videos Screened", groups_attended: "Groups of beneficiaries", number_of_male: "No. of Male Participants", number_of_female: "No. of Female Participants"},
