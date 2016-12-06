@@ -94,7 +94,7 @@ class Command(BaseCommand):
         del all_screening
         all_adoption = PersonAdoptPractice.objects.filter(date_of_verification__isnull=False)
         for adoption in all_adoption:
-            year = str(screening.date.strftime('%Y'))
+            year = str(adoption.date_of_verification.strftime('%Y'))
             month = str(adoption.date_of_verification.strftime('%B'))
             country = str(adoption.person.village.block.district.state.country.country_name.encode('utf-8'))
             state = str(adoption.person.village.block.district.state.state_name.encode('utf-8'))
