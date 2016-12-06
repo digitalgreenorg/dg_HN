@@ -12,7 +12,7 @@ class Command(BaseCommand):
         today_date = datetime.datetime.now().strftime("%Y-%m-%d")
         subject = "Health & Nutrition (West Africa) Monthly Data Till %s"%today_date
         from_email = dg.settings.EMAIL_HOST_USER
-        to_email = ['vikas@digitalgreen.org']#['system@digitalgreen.org', 'avinash@digitalgreen.org', 'vikas@digitalgreen.org', 'vivek@digitalgreen.org']
+        to_email = ['system@digitalgreen.org', 'avinash@digitalgreen.org', 'vikas@digitalgreen.org', 'vivek@digitalgreen.org']
         body = "Dear Team,\n\n" + "This is a Monthly automated email to monitor Health & Nutrition (West Africa) data entry.\nThis mail is to keep you updated on the progress in data entry." + "\n\nPlease contact system@digitalgreen.org for any clarification.\n\nThank you.\n"
         msg = EmailMultiAlternatives(subject, body, from_email, to_email)
         msg.attach_file(reporting_file_path, 'text/csv' )
