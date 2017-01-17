@@ -1,7 +1,9 @@
 from django.core.management.base import BaseCommand
 from django.core.mail import EmailMultiAlternatives
-from activities.models import Screening, PersonAdoptPractice, PersonMeetingAttendance
 
+import pandas as pd
+import pandas.io.sql as psql
+import MySQLdb
 import csv
 import datetime
 import dg.settings
@@ -18,177 +20,115 @@ class Command(BaseCommand):
         msg.attach_file(reporting_file_path, 'text/csv' )
         msg.send()
 
-    def check_dict(self,data,year,month,country,state,district,block,village,video):
-        if year not in data:
-            data[year] = dict()
-        if month not in data[year]:
-            data[year][month] = dict()
-        if country not in data[year][month]:
-            data[year][month][country] = dict()
-        if state not in data[year][month][country]:
-            data[year][month][country][state] = dict()
-        if district not in data[year][month][country][state]:
-            data[year][month][country][state][district] = dict()
-        if block not in data[year][month][country][state][district]:
-            data[year][month][country][state][district][block] = dict()
-        if village not in data[year][month][country][state][district][block]:
-            data[year][month][country][state][district][block][village] = dict()
-        if video not in data[year][month][country][state][district][block][village]:
-            data[year][month][country][state][district][block][village][video] = dict()
+    def run_query(self,query):
+        mysql_cn = MySQLdb.connect(host='localhost', port=3306, 
+            user=dg.settings.DATABASES['default']['USER'] ,
+            passwd=dg.settings.DATABASES['default']['PASSWORD'],
+            db=dg.settings.DATABASES['default']['NAME'],
+            charset = 'utf8',
+            use_unicode = True) 
+        temp_df = psql.read_sql(query, con=mysql_cn)
+        mysql_cn.close()
+        return temp_df
 
     def handle(self, *args, **options):
-        data = dict()
-        data_list = []
+
         reporting_file_path = 'files/health_data.csv'
-        months_dic = dict(January=1, February=2, March=3, April=4, May=5, June=6, July=7,
-              August=8, September=9, October=10, November=11, December=12)
+        screening_query = '''SELECT 
+                YEAR(ascr.date) YEAR,
+                MONTHNAME(ascr.date) MONTH,
+                gc.country_name COUNTRY,
+                gs.state_name REGION,
+                gd.district_name DEPARTMENT,
+                gb.block_name COMMUNE,
+                gv.village_name VILLAGE,
+                vv.title VIDEO,
+                COUNT(DISTINCT ascr.id) 'TOTAL SCREENING',
+                COUNT(DISTINCT fgt.persongroup_id) UNIQUE_GROUP,
+                COUNT(DISTINCT pma.person_id) UNIQUE_MEMBER,
+                COUNT(DISTINCT CASE pma.category
+                        WHEN '0' THEN pma.person_id
+                    END) 'Pregnant Woman',
+                COUNT(DISTINCT CASE pma.category
+                        WHEN '1' THEN pma.person_id
+                    END) 'Mother of child < 5 years old',
+                COUNT(DISTINCT CASE pma.category
+                        WHEN '2' THEN pma.person_id
+                    END) 'Adolescent girls (10-19 years old)',
+                COUNT(DISTINCT CASE pma.category
+                        WHEN '3' THEN pma.person_id
+                    END) 'Other females',
+                COUNT(DISTINCT CASE pma.category
+                        WHEN '4' THEN pma.person_id
+                    END) 'Males'
+            FROM
+                geographies_village gv
+                    JOIN
+                geographies_block gb ON gv.block_id = gb.id
+                    JOIN
+                geographies_district gd ON gd.id = gb.district_id
+                    JOIN
+                geographies_state gs ON gs.id = gd.state_id
+                    JOIN
+                geographies_country gc ON gc.id = gs.country_id
+                    JOIN
+                activities_screening ascr ON ascr.village_id = gv.id
+                    JOIN
+                activities_personmeetingattendance pma ON ascr.id = pma.screening_id
+                    JOIN
+                activities_screening_farmer_groups_targeted fgt ON ascr.id = fgt.screening_id
+                    JOIN
+                activities_screening_videoes_screened svs ON ascr.id = svs.screening_id
+                    JOIN
+                videos_video vv ON svs.video_id = vv.id
+            GROUP BY YEAR(ascr.date) , MONTH(ascr.date) , gc.id , gs.id , gd.id , gb.id , gv.id , vv.title
+            ORDER BY YEAR(ascr.date) DESC, MONTH(ascr.date) DESC '''
 
-        all_screening = Screening.objects.filter(date__isnull=False)
-        for screening in all_screening:
-            year = str(screening.date.strftime('%Y'))
-            month = str(screening.date.strftime('%B'))
-            country = str(screening.village.block.district.state.country.country_name.encode('utf-8'))
-            state = str(screening.village.block.district.state.state_name.encode('utf-8'))
-            district = str(screening.village.block.district.district_name.encode('utf-8'))
-            block = str(screening.village.block.block_name.encode('utf-8'))
-            village = str(screening.village.village_name.encode('utf-8'))
-            videos = screening.videoes_screened.all()    
-            for video in videos:
-                self.check_dict(data,year,month,country,state,district,block,village,video)
-                if 'TOTAL_SCREENING' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['TOTAL_SCREENING'] = 0
-                if 'UNIQUE_MEMBER' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['UNIQUE_MEMBER'] = set()
-                if 'UNIQUE_GROUP' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['UNIQUE_GROUP'] = set()
-                if 'PREG_WOMEN' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['PREG_WOMEN'] = set()
-                if 'MOTHER_CHILD' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['MOTHER_CHILD'] = set()
-                if 'ADOLE_GIRL' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['ADOLE_GIRL'] = set()
-                if 'OTHER_FEMALE' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['OTHER_FEMALE'] = set()
-                if 'MALE' not in data[year][month][country][state][district][block][village][video]:
-                    data[year][month][country][state][district][block][village][video]['MALE'] = set()
-                data[year][month][country][state][district][block][village][video]['TOTAL_SCREENING'] += 1
-                for farmer in screening.farmers_attendance.all():
-                    data[year][month][country][state][district][block][village][video]['UNIQUE_MEMBER'].add(farmer.id)
-                for group in screening.farmer_groups_targeted.all():
-                    data[year][month][country][state][district][block][village][video]['UNIQUE_GROUP'].add(group.id)
-                person_category = PersonMeetingAttendance.objects.filter(screening=screening)
-                preg_women = person_category.filter(category='0').values_list('person_id',flat=True)
-                mother_child = person_category.filter(category='1').values_list('person_id',flat=True)
-                adole_girl = person_category.filter(category='2').values_list('person_id',flat=True)
-                other_female = person_category.filter(category='3').values_list('person_id',flat=True)
-                male = person_category.filter(category='4').values_list('person_id',flat=True)
-                for women in preg_women:
-                    data[year][month][country][state][district][block][village][video]['PREG_WOMEN'].add(women)
-                for mother in mother_child:
-                    data[year][month][country][state][district][block][village][video]['MOTHER_CHILD'].add(mother)
-                for girl in adole_girl:
-                    data[year][month][country][state][district][block][village][video]['ADOLE_GIRL'].add(mother)
-                for female in other_female:
-                    data[year][month][country][state][district][block][village][video]['OTHER_FEMALE'].add(mother)
-                for m in male:
-                    data[year][month][country][state][district][block][village][video]['MALE'].add(m)
-        del all_screening
+        adoption_query = '''SELECT 
+                YEAR(pap.date_of_verification) YEAR,
+                MONTHNAME(pap.date_of_verification) MONTH,
+                gc.country_name COUNTRY,
+                gs.state_name REGION,
+                gd.district_name DEPARTMENT,
+                gb.block_name COMMUNE,
+                gv.village_name VILLAGE,
+                vv.title VIDEO,
+                COUNT(DISTINCT CASE pap.adopt_practice
+                        WHEN '1' THEN pap.person_id
+                    END) 'UNIQUE MEMBER REPORT ADOPT PRACTICE',
+                COUNT(DISTINCT CASE pap.promote_practice
+                        WHEN '1' THEN pap.person_id
+                    END) 'UNIQUE MEMBER REPORT PROMOT PRACTICE',
+                COUNT(DISTINCT CASE
+                        WHEN
+                            n_one = '1' AND n_two = '1'
+                                AND n_three = '1'
+                                AND n_four = '1'
+                                AND n_five = '1'
+                        THEN
+                            pap.person_id
+                    END) 'UNIQUE MEMBER REPORT RECALL ALL NON-NEGOTIABLES'
+            FROM
+                geographies_village gv
+                    JOIN
+                geographies_block gb ON gv.block_id = gb.id
+                    JOIN
+                geographies_district gd ON gd.id = gb.district_id
+                    JOIN
+                geographies_state gs ON gs.id = gd.state_id
+                    JOIN
+                geographies_country gc ON gc.id = gs.country_id
+                    JOIN
+                people_person pp ON pp.village_id = gv.id
+                    JOIN
+                activities_personadoptpractice pap ON pap.person_id = pp.id AND pap.video_id
+                    JOIN
+                videos_video vv ON pap.video_id = vv.id
+            GROUP BY YEAR(pap.date_of_verification) , MONTH(pap.date_of_verification) , gc.id , gs.id , gd.id , gb.id , gv.id , vv.title
+            ORDER BY YEAR(pap.date_of_verification) DESC, MONTH(pap.date_of_verification) DESC '''
 
-        all_adoption = PersonAdoptPractice.objects.filter(date_of_verification__isnull=False)
-        for adoption in all_adoption:
-            year = str(adoption.date_of_verification.strftime('%Y'))
-            month = str(adoption.date_of_verification.strftime('%B'))
-            country = str(adoption.person.village.block.district.state.country.country_name.encode('utf-8'))
-            state = str(adoption.person.village.block.district.state.state_name.encode('utf-8'))
-            district = str(adoption.person.village.block.district.district_name.encode('utf-8'))
-            block = str(adoption.person.village.block.block_name.encode('utf-8'))
-            village = str(adoption.person.village.village_name.encode('utf-8'))
-            video = adoption.video
-            self.check_dict(data,year,month,country,state,district,block,village,video)
-            if 'UNIQUE_ADOPTION' not in data[year][month][country][state][district][block][village][video]:
-                data[year][month][country][state][district][block][village][video]['UNIQUE_ADOPTION'] = set()
-            if 'UNIQUE_PROMOT' not in data[year][month][country][state][district][block][village][video]:
-                data[year][month][country][state][district][block][village][video]['UNIQUE_PROMOT'] = set()
-            if 'RECALL_ALL_NEGO' not in data[year][month][country][state][district][block][village][video]:
-                data[year][month][country][state][district][block][village][video]['RECALL_ALL_NEGO'] = set()
-            if adoption.adopt_practice == 1:
-                data[year][month][country][state][district][block][village][video]['UNIQUE_ADOPTION'].add(adoption.person_id)
-            if adoption.promote_practice == 1:
-                data[year][month][country][state][district][block][village][video]['UNIQUE_PROMOT'].add(adoption.person_id)
-            if adoption.n_one == 1 and adoption.n_two == 1 and adoption.n_three == 1 and adoption.n_four == 1 and adoption.n_five == 1:
-                data[year][month][country][state][district][block][village][video]['RECALL_ALL_NEGO'].add(adoption.person_id)
-        del all_adoption
-
-        for year in data:
-            for month in data[year]:
-                for country in data[year][month]:
-                    for state in data[year][month][country]:
-                        for district in data[year][month][country][state]:
-                            for block in data[year][month][country][state][district]:
-                                for village in data[year][month][country][state][district][block]:
-                                    for video in data[year][month][country][state][district][block][village]:
-                                        if 'TOTAL_SCREENING' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['TOTAL_SCREENING'] = 0
-                                        else:
-                                            pass
-                                        if 'UNIQUE_MEMBER' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_MEMBER'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_MEMBER'] = len(data[year][month][country][state][district][block][village][video]['UNIQUE_MEMBER'])
-                                        if 'UNIQUE_GROUP' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_GROUP'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_GROUP'] = len(data[year][month][country][state][district][block][village][video]['UNIQUE_GROUP'])
-                                        if 'PREG_WOMEN' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['PREG_WOMEN'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['PREG_WOMEN'] = len(data[year][month][country][state][district][block][village][video]['PREG_WOMEN'])
-                                        if 'MOTHER_CHILD' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['MOTHER_CHILD'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['MOTHER_CHILD'] = len(data[year][month][country][state][district][block][village][video]['MOTHER_CHILD'])
-                                        if 'ADOLE_GIRL' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['ADOLE_GIRL'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['ADOLE_GIRL'] = len(data[year][month][country][state][district][block][village][video]['ADOLE_GIRL'])
-                                        if 'OTHER_FEMALE' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['OTHER_FEMALE'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['OTHER_FEMALE'] = len(data[year][month][country][state][district][block][village][video]['OTHER_FEMALE'])
-                                        if 'MALE' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['MALE'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['MALE'] = len(data[year][month][country][state][district][block][village][video]['MALE'])
-                                        if 'UNIQUE_ADOPTION' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_ADOPTION'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_ADOPTION'] = len(data[year][month][country][state][district][block][village][video]['UNIQUE_ADOPTION'])
-                                        if 'UNIQUE_PROMOT' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_PROMOT'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['UNIQUE_PROMOT'] = len(data[year][month][country][state][district][block][village][video]['UNIQUE_PROMOT'])
-                                        if 'RECALL_ALL_NEGO' not in data[year][month][country][state][district][block][village][video]:
-                                            data[year][month][country][state][district][block][village][video]['RECALL_ALL_NEGO'] = 0
-                                        else:
-                                            data[year][month][country][state][district][block][village][video]['RECALL_ALL_NEGO'] = len(data[year][month][country][state][district][block][village][video]['RECALL_ALL_NEGO'])    
-                                        video_title = str(video.title.encode('utf-8'))
-                                        total_screening = data[year][month][country][state][district][block][village][video]['TOTAL_SCREENING']
-                                        unique_member= data[year][month][country][state][district][block][village][video]['UNIQUE_MEMBER'] 
-                                        unique_group = data[year][month][country][state][district][block][village][video]['UNIQUE_GROUP']
-                                        preg_women =  data[year][month][country][state][district][block][village][video]['PREG_WOMEN']
-                                        mother_child = data[year][month][country][state][district][block][village][video]['MOTHER_CHILD']
-                                        adole_girl = data[year][month][country][state][district][block][village][video]['ADOLE_GIRL']
-                                        other_female = data[year][month][country][state][district][block][village][video]['OTHER_FEMALE']
-                                        male = data[year][month][country][state][district][block][village][video]['MALE']
-                                        unique_adoption = data[year][month][country][state][district][block][village][video]['UNIQUE_ADOPTION']
-                                        unique_promt = data[year][month][country][state][district][block][village][video]['UNIQUE_PROMOT']
-                                        recall_all_nego = data[year][month][country][state][district][block][village][video]['RECALL_ALL_NEGO']
-                                        data_list.append({'YEAR':year,'MONTH':month,'COUNTRY':country,'REGION':state,'DEPARTMENT':district,'COMMUNE':block,'VILLAGE':village,'VIDEO':video_title,'TOTAL SCREENING':total_screening,'UNIQUE_GROUP':unique_group,'UNIQUE_MEMBER':unique_member,'Pregnant Woman':preg_women,'Mother of child < 5 years old':mother_child,'Adolescent girls (10-19 years old)':adole_girl,'Other females':other_female,'Males':male,'UNIQUE MEMBER REPORT ADOPT PRACTICE':unique_adoption,'UNIQUE MEMBER REPORT PROMOT PRACTICE':unique_promt,'UNIQUE MEMBER REPORT RECALL ALL NON-NEGOTIABLES':recall_all_nego})
-        del data
-        data_list = sorted(data_list,key=lambda ele: (ele['YEAR'],months_dic[ele['MONTH']]),reverse=True)
-        headers = ['YEAR','MONTH', 'COUNTRY', 'REGION', 'DEPARTMENT', 'COMMUNE', 'VILLAGE', 'VIDEO', 'TOTAL SCREENING', 'UNIQUE_GROUP', 'UNIQUE_MEMBER', 'Pregnant Woman', 'Mother of child < 5 years old', 'Adolescent girls (10-19 years old)', 'Other females', 'Males', 'UNIQUE MEMBER REPORT ADOPT PRACTICE', 'UNIQUE MEMBER REPORT PROMOT PRACTICE', 'UNIQUE MEMBER REPORT RECALL ALL NON-NEGOTIABLES']
-        with open(reporting_file_path,'wb') as final_output:
-            dict_writer = csv.DictWriter(final_output,headers)
-            dict_writer.writeheader()
-            dict_writer.writerows(data_list)
+        screening_df = self.run_query(screening_query)
+        adoption_df = self.run_query(adoption_query)
+        combine_df = pd.merge(screening_df, adoption_df, how='outer')
+        combine_df.to_csv(reporting_file_path, sep=',', encoding='utf-8', index=False)
         self.send_mail(reporting_file_path)
