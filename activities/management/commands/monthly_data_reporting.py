@@ -14,7 +14,7 @@ class Command(BaseCommand):
         today_date = datetime.datetime.now().strftime("%Y-%m-%d")
         subject = "Health & Nutrition (West Africa): Data received till %s"%(today_date)
         from_email = dg.settings.EMAIL_HOST_USER
-        to_email = ['system@digitalgreen.org', 'avinash@digitalgreen.org', 'vikas@digitalgreen.org', 'vivek@digitalgreen.org', 'abhishekchandran@digitalgreen.org']
+        to_email = ['system@digitalgreen.org', 'avinash@digitalgreen.org']
         body = "Dear Team,\n\nPlease find the attached Health & Nutrition (West Africa) data entered till %s.\nPlease contact system@digitalgreen.org for any question or clarification.\n\nThank you."%(today_date)
         msg = EmailMultiAlternatives(subject, body, from_email, to_email)
         msg.attach_file(reporting_file_path, 'text/csv' )
