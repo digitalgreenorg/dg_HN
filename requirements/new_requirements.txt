@@ -33,7 +33,7 @@ six==1.10.0
 twython==3.0.0
 tzlocal==1.2.2
 unicodecsv==0.9.4
-urllib3==1.6
+urllib3==1.26.5
 xlrd==0.9.2
 XlsxWriter==0.5.1
 xlwt==0.7.5
