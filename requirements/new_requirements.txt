@@ -19,7 +19,7 @@ numpy==1.11.0
 oauth2==1.5.211
 oauthlib==1.1.2
 pandas==0.18.1
-Pillow==3.2.0
+Pillow==9.0.0
 poster==0.8.1
 pyes==0.20.0
 python-dateutil==2.5.3
